@@ -1,5 +1,17 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/">Hirundo</a>
+    <% if (req.isAuthenticated()) { %>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-align-justify"></span><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="/user/edit/<%= req.user[0].id %>">Edit profile</a></li>
+            <li class="divider"></li>
+            <li><a href="/logout">Sign out</a></li>
+          </ul>
+        </li>
+      </ul>
+    <% } %>
   </div>
 </div>

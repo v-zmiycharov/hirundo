@@ -65,19 +65,7 @@ module.exports = {
   },
 
   edit: function(req, res, next) {
-    User.findOne(req.param('id'), function foundUser(err, user) {
-      if (err) {
-        return next(err);
-      }
-
-      if (!user) {
-        return next('User doesn\'t exist.');
-      }
-
-      res.view({
-        user: user
-      });
-    });
+    res.view();
   },
 
   update: function(req, res, next) {
