@@ -1,0 +1,25 @@
+<div class="container">
+  <h3>Users</h3>
+  <table class='table'>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Bio</th>
+        <th>Follow</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% _.each(users, function(user) { %>
+        <tr data-id="<%= user.id %>" data-model="user">
+          <td><%= user.username %></td>
+          <td>
+            <% if (user.bio) { %>
+              <%= user.bio %>
+            <% } %>
+          </td>
+          <td><a href="/user/follow/<%= user.id %>" class="btn btn-sm btn-primary">Follow</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,17 @@
+<div class='container'>
+  <h1><%= user.username %> </h1>
+  <% if (user.bio) { %>
+  <h3><%= user.bio %> </h3>
+  <% } %>
+  <% if (user.email) { %>
+  <h5>email: <%= user.email %> </h5>
+  <% } %>
+  <% if (user.website) { %>
+    <h5>website: <%= user.website %> </h5>
+  <% } %>
+  <a class="btn btn-medium btn-primary" href="/user/edit/<%= user.id %>">Edit</a>
+  <hr>
+  <div>
+    Tweets go here.
+  </div>
+</div>
