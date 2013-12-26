@@ -1,7 +1,12 @@
 <div class='container'>
-  <h1><%= user.username %> </h1>
+  <h1>
+    <% if (user.name) { %>
+      <%= user.name %>
+    <% } %>
+  </h1>
+  <h3><%= user.username %></h3>
   <% if (user.bio) { %>
-  <h3><%= user.bio %> </h3>
+  <h4><%= user.bio %> </h4>
   <% } %>
   <% if (user.email) { %>
   <h5>email: <%= user.email %> </h5>
@@ -9,15 +14,38 @@
   <% if (user.website) { %>
     <h5>website: <%= user.website %> </h5>
   <% } %>
-  <% if (currentUser.id == user.id) { %>
-    <a class="btn btn-medium btn-primary" href="/user/edit/<%= user.id %>">Edit</a>
-  <% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
-    <a href="/follow/<%= user.id %>" class="btn btn-sm btn-primary">Follow</a>
-  <% } else { %>
-    <a href="/unfollow/<%= user.id %>" class="btn btn-sm btn-primary">Unfollow</a>
-  <% } %>
+  <ul class="nav nav-pills">
+    <li <% if (selected == 'tweets') { %> class="active" <% } %>>
+      <a href="/<%= user.id %>">
+        <span class="badge pull-right">42</span>
+        Tweets
+      </a>
+    </li>
+    <li <% if (selected == 'followers') { %> class="active" <% } %>>
+      <a href="/<%= user.id %>/followers">
+        <span class="badge pull-right">42</span>
+        Followers
+      </a>
+    </li>
+    <li <% if (selected == 'following') { %> class="active" <% } %>>
+      <a href="/<%= user.id %>/following">
+        <span class="badge pull-right">42</span>
+        Following
+      </a>
+    </li>
+    <li>
+      <% if (currentUser.id == user.id) { %>
+        <a href="/user/edit/<%= user.id %>">Edit</a>
+      <% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
+        <a href="/follow/<%= user.id %>">Follow</a>
+      <% } else { %>
+        <a href="/unfollow/<%= user.id %>">Unfollow</a>
+      <% } %>
+    </li>
+    <li>
+  </ul>
   <hr>
   <div>
-    Tweets go here.
+    <% partial %>
   </div>
 </div>

@@ -47,6 +47,8 @@ module.exports = {
       }
 
       return res.view('user/show', {
+        partial: 'user/tweets',
+        selected: 'tweets',
         user: user
       });
     });
@@ -121,4 +123,40 @@ module.exports = {
       return res.redirect('/user');
     });
   },
+
+  followers: function(req, res, next) {
+    User.findOne(req.param('id'), function foundUser(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        return next();
+      }
+
+      return res.view('user/show', {
+        partial: 'user/peers',
+        selected: 'followers',
+        user: user
+      });
+    });
+  },
+
+  following: function(req, res, next) {
+    User.findOne(req.param('id'), function foundUser(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        return next();
+      }
+
+      return res.view('user/show', {
+        partial: 'user/peers',
+        selected: 'following',
+        user: user
+      });
+    });
+  }
 };
