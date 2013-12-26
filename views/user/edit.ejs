@@ -1,4 +1,4 @@
-<form action="/user/update/<%= req.user[0].id %>" method="POST" role="form">
+<form action="/user/update/<%= user.id %>" method="POST" role="form">
   <h2>Profile</h2>
   <% if (flash && flash.err && flash.err.ValidationError) { %>
   <ul class="alert alert-success">
@@ -9,11 +9,15 @@
   <% } %>
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" class="form-control" name="name" id="name" value="<%= req.user[0].name %>" placeholder="Enter your name">
+    <input type="text" class="form-control" name="name" id="name" value="<%= user.name %>" placeholder="Enter your name">
   </div>
   <div class="form-group">
     <label for="bio">Bio</label>
-    <textarea class="form-control" name="bio" id="bio" value="<%= req.user[0].bio %>" placeholder="Summarize your bio in 160 characters"></textarea>
+    <textarea class="form-control" name="bio" id="bio" placeholder="Summarize your bio in 160 characters"><%= user.bio %></textarea>
+  </div>
+  <div class="form-group">
+    <label for="location">Location</label>
+    <input type="text" class="form-control" name="location" id="location" value="<%= user.location %>" placeholder="Enter your location">
   </div>
   <div class="form-group">
     <label for="password">Password</label>
@@ -27,7 +31,7 @@
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
 </form>
 <br />
-<form action="/user/destroy/<%= req.user[0].id %>" method="POST">
+<form action="/user/destroy/<%= user.id %>" method="POST">
   <input type="hidden" name="_method" value="delete">
   <input type="submit" class="btn btn-default btn-danger" value="Delete user">
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
