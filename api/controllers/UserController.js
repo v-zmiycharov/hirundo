@@ -47,9 +47,12 @@ module.exports = {
       }
 
       return res.view('user/show', {
-        partial: 'user/tweets',
+        user: user,
+        partial_name: 'tweets',
         selected: 'tweets',
-        user: user
+        data: {
+
+        }
       });
     });
   },
@@ -134,10 +137,26 @@ module.exports = {
         return next();
       }
 
-      return res.view('user/show', {
-        partial: 'user/peers',
-        selected: 'followers',
-        user: user
+      User.find().where({
+        id: user.followers
+      }).exec(function(err, followers) {
+        if (err) {
+          return next(err);
+        }
+
+        if (user.followers.length == 0) {
+          followees = [];
+        }
+
+        return res.view('user/show', {
+          user: user,
+          partial_name: 'peers',
+          selected: 'followers',
+          data: {
+            users: followers,
+            emptyMessage: 'Nobody follows you yet.'
+          }
+        });
       });
     });
   },
@@ -152,10 +171,26 @@ module.exports = {
         return next();
       }
 
-      return res.view('user/show', {
-        partial: 'user/peers',
-        selected: 'following',
-        user: user
+      User.find().where({
+        id: user.followees
+      }).exec(function(err, followees) {
+        if (err) {
+          return next(err);
+        }
+
+        if (user.followees.length == 0) {
+          followees = [];
+        }
+
+        return res.view('user/show', {
+          user: user,
+          partial_name: 'peers',
+          selected: 'following',
+          data: {
+            users: followees,
+            emptyMessage: 'You are not following anybody yet.'
+          }
+        });
       });
     });
   }

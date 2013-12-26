@@ -1,1 +1,16 @@
-Peers.
+<% if (users.length == 0) { %>
+  <div class="alert alert-info">
+    <%= emptyMessage %>
+  </div>
+<% } %>
+<% _.each(users, function(user) { %>
+  <div class="media">
+    <a class="pull-left" href="#">
+      <img class="media-object" src="holder.js/64x64" alt="s2gatev">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading"><a href="/<%- user.id %>"><%= user.username %></a></h4>
+      <%- user.bio %>
+    </div>
+  </div>
+<% }) %>

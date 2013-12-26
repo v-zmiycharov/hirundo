@@ -1,19 +1,12 @@
 <div class='container'>
-  <h1>
-    <% if (user.name) { %>
-      <%= user.name %>
-    <% } %>
-  </h1>
-  <h3><%= user.username %></h3>
-  <% if (user.bio) { %>
-  <h4><%= user.bio %> </h4>
-  <% } %>
-  <% if (user.email) { %>
-  <h5>email: <%= user.email %> </h5>
-  <% } %>
-  <% if (user.website) { %>
-    <h5>website: <%= user.website %> </h5>
-  <% } %>
+  <div class="page-header">
+    <h1>
+      <% if (user.name) { %>
+        <%= user.name %>
+      <% } %>
+      <small><%= user.username %></small>
+    </h1>
+  </div>
   <ul class="nav nav-pills">
     <li <% if (selected == 'tweets') { %> class="active" <% } %>>
       <a href="/<%= user.id %>">
@@ -23,13 +16,13 @@
     </li>
     <li <% if (selected == 'followers') { %> class="active" <% } %>>
       <a href="/<%= user.id %>/followers">
-        <span class="badge pull-right">42</span>
+        <span class="badge pull-right"><%- user.followers.length %></span>
         Followers
       </a>
     </li>
     <li <% if (selected == 'following') { %> class="active" <% } %>>
       <a href="/<%= user.id %>/following">
-        <span class="badge pull-right">42</span>
+        <span class="badge pull-right"><%- user.followees.length %></span>
         Following
       </a>
     </li>
@@ -46,6 +39,6 @@
   </ul>
   <hr>
   <div>
-    <% partial %>
+    <%- partial(partial_name + '.ejs', data) %>
   </div>
 </div>
