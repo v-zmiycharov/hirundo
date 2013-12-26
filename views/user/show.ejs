@@ -9,7 +9,13 @@
   <% if (user.website) { %>
     <h5>website: <%= user.website %> </h5>
   <% } %>
-  <a class="btn btn-medium btn-primary" href="/user/edit/<%= user.id %>">Edit</a>
+  <% if (currentUser.id == user.id) { %>
+    <a class="btn btn-medium btn-primary" href="/user/edit/<%= user.id %>">Edit</a>
+  <% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
+    <a href="/follow/<%= user.id %>" class="btn btn-sm btn-primary">Follow</a>
+  <% } else { %>
+    <a href="/unfollow/<%= user.id %>" class="btn btn-sm btn-primary">Unfollow</a>
+  <% } %>
   <hr>
   <div>
     Tweets go here.

@@ -32,7 +32,7 @@ module.exports = {
         return res.redirect('/user/new');
       }
 
-      res.redirect('/user/show/' + user.id);
+      return res.redirect('/' + user.id);
     });
   },
 
@@ -46,7 +46,7 @@ module.exports = {
         return next();
       }
 
-      res.view({
+      return res.view('user/show', {
         user: user
       });
     });
@@ -58,7 +58,7 @@ module.exports = {
         return next(err);
       }
 
-      res.view({
+      return res.view('user/index', {
         users: users
       });
     });
@@ -69,32 +69,27 @@ module.exports = {
   },
 
   update: function(req, res, next) {
-    if (req.session.User.admin) {
-      var userObj = {
-        name: req.param('name'),
-        title: req.param('title'),
-        email: req.param('email'),
-        admin: req.param('admin')
-      }
-    } else {
-      var userObj = {
-        name: req.param('name'),
-        title: req.param('title'),
-        email: req.param('email')
-      }
+    var values = {
+      name: req.param('name'),
+      bio: req.param('bio'),
+      location: req.param('location'),
+      website: req.param('website')
     }
 
-    User.update(req.param('id'), userObj, function userUpdated(err) {
+    if (req.param('password') && req.param('password') == req.param('password_confirmation')) {
+      values.password = req.param('password');
+    }
+
+    User.update(req.param('id'), values, function userUpdated(err) {
       if (err) {
         return res.redirect('/user/edit/' + req.param('id'));
       }
 
-      res.redirect('/user/show/' + req.param('id'));
+      return res.redirect('/' + req.param('id'));
     });
   },
 
   destroy: function(req, res, next) {
-
     User.findOne(req.param('id'), function foundUser(err, user) {
       if (err) {
         return next(err);
@@ -103,6 +98,12 @@ module.exports = {
       if (!user) {
         return next('User doesn\'t exist.');
       }
+
+      if (user.id != req.session.passport.user) {
+        return next('You don\'t have permission for this action.');
+      }
+
+      req.logout();
 
       User.destroy(req.param('id'), function userDestroyed(err) {
         if (err) {
@@ -117,7 +118,7 @@ module.exports = {
         User.publishDestroy(user.id);
       });
 
-      res.redirect('/user');
+      return res.redirect('/user');
     });
   },
 };

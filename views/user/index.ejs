@@ -5,7 +5,7 @@
       <tr>
         <th>Username</th>
         <th>Bio</th>
-        <th>Follow</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +17,15 @@
               <%= user.bio %>
             <% } %>
           </td>
-          <td><a href="/user/follow/<%= user.id %>" class="btn btn-sm btn-primary">Follow</a></td>
+          <td>
+            <% if (currentUser.id == user.id) { %>
+              This is you.
+            <% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
+              <a href="/follow/<%= user.id %>" class="btn btn-sm btn-primary">Follow</a>
+            <% } else { %>
+              <a href="/unfollow/<%= user.id %>" class="btn btn-sm btn-primary">Unfollow</a>
+            <% } %>
+          </td>
         </tr>
       <% }) %>
     </tbody>

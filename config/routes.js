@@ -34,8 +34,11 @@ module.exports.routes = {
   // (This would also work if you had a file at: `/views/home.ejs`)
   '/': 'HomeController.index',
   '/feed': 'HomeController.feed',
+  '/follow/:followee_id': 'RelationsController.follow',
+  '/unfollow/:followee_id': 'RelationsController.unfollow',
   'post /login': 'AuthenticationController.login',
   'get /logout': 'AuthenticationController.logout',
+  '/:id': 'UserController.show',
 
   /*
   // But what if you want your home page to display

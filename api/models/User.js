@@ -6,6 +6,8 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
+var bcrypt = require('bcrypt');
+
 module.exports = {
 
   schema: true,
@@ -14,7 +16,8 @@ module.exports = {
 
   	name: {
       type: 'string',
-      maxLength: 40
+      maxLength: 40,
+      defaultsTo: ""
     },
 
     username: {
@@ -27,15 +30,18 @@ module.exports = {
 
     bio: {
       type: 'string',
-      maxLength: 160
+      maxLength: 160,
+      defaultsTo: ""
     },
 
     location: {
-      type: 'string'
+      type: 'string',
+      defaultsTo: ""
     },
 
     website: {
-      type: 'string'
+      type: 'string',
+      defaultsTo: ""
     },
 
     email: {
@@ -47,6 +53,22 @@ module.exports = {
     password: {
       type: 'string',
       required: true
+    },
+
+    isVerified: {
+      type: 'boolean',
+      required: true,
+      defaultsTo: false
+    },
+
+    followees: {
+      type: 'array',
+      defaultsTo: []
+    },
+
+    followers: {
+      type: 'array',
+      defaultsTo: []
     }
   },
 
@@ -58,7 +80,9 @@ module.exports = {
     return obj;
   },
 
-  beforeCreate: function (values, next) {
+  beforeCreate: function(values, next) {
+    delete values.id;
+
     if (!values.password || values.password != values.password_confirmation) {
       return next({
           ValidationError: {
@@ -70,12 +94,27 @@ module.exports = {
       });
     }
 
-    require('bcrypt').hash(values.password, 8, function encryptPassword(err, encryptedPassword) {
+    bcrypt.hash(values.password, 8, function encryptPassword(err, encryptedPassword) {
       if (err) {
         return next(err);
       }
+
       values.password = encryptedPassword;
       next();
     });
+  },
+
+  beforeUpdate: function(values, next) {
+    if (values.password) {
+      bcrypt.hash(values.password, 8, function encryptPassword(err, encryptedPassword) {
+        if (err) {
+          return next(err);
+        }
+
+        values.password = encryptedPassword;
+        next();
+      });
+    }
+    next();
   }
 };

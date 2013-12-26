@@ -22,12 +22,11 @@ module.exports = {
   login: function(req, res) {
     passport.authenticate('local', function(err, user, info) {
       if ((err) || (!user)) {
-        res.redirect('/');
-        return;
+        return res.redirect('/');
       }
       req.logIn(user, function(err) {
         if (err) {
-          res.redirect('/login');
+          return res.redirect('/login');
         }
         return res.redirect('/');
       });
@@ -36,6 +35,6 @@ module.exports = {
 
   logout: function (req,res){
     req.logout();
-    res.redirect('/');
+    return res.redirect('/');
   },
 };

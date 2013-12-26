@@ -19,13 +19,12 @@ module.exports = {
 
   index: function(req, res) {
     if (req.isAuthenticated()) {
-      res.redirect('/feed');
-    } else {
-      res.view();
+      return res.redirect('/feed');
     }
+    return res.view();
   },
 
   feed: function(req, res) {
-    res.view();
-  },
+    return res.view();
+  }
 };
