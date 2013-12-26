@@ -20,6 +20,7 @@ module.exports.policies = {
 
   HomeController: {
     'index': ['flash'],
+    'feed': ['flash', 'isAuthenticated'],
   },
 
   UserController: {
@@ -28,6 +29,7 @@ module.exports.policies = {
   },
 
   AuthenticationController: {
+    'logout': ['flash', 'isAuthenticated'],
     '*': ['flash'],
   }
 

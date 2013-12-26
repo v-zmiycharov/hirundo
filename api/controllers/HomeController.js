@@ -20,8 +20,9 @@ module.exports = {
   index: function(req, res) {
     if (req.isAuthenticated()) {
       res.redirect('/feed');
+    } else {
+      res.view();
     }
-    res.view();
   },
 
   feed: function(req, res) {
