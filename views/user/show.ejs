@@ -1,12 +1,18 @@
 <div class='container'>
   <div class="page-header">
     <h1>
+      <% if (user.isVerified) { %>
+        <span class="glyphicon glyphicon-certificate" alt="Verified"></span>
+      <% } %>
       <% if (user.name) { %>
         <%= user.name %>
       <% } %>
       <small><%= user.username %></small>
     </h1>
   </div>
+  <% if (user.bio) { %>
+    <div class="well"><%= user.bio %></div>
+  <% } %>
   <ul class="nav nav-pills">
     <li <% if (selected == 'tweets') { %> class="active" <% } %>>
       <a href="/<%= user.id %>">

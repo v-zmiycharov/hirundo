@@ -145,7 +145,7 @@ module.exports = {
         }
 
         if (user.followers.length == 0) {
-          followees = [];
+          followers = [];
         }
 
         return res.view('user/show', {
@@ -193,5 +193,5 @@ module.exports = {
         });
       });
     });
-  }
+  },
 };

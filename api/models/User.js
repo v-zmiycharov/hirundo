@@ -12,6 +12,8 @@ module.exports = {
 
   schema: true,
 
+  autoPK: false,
+
   attributes: {
 
   	name: {
@@ -81,8 +83,6 @@ module.exports = {
   },
 
   beforeCreate: function(values, next) {
-    delete values.id;
-
     if (!values.password || values.password != values.password_confirmation) {
       return next({
           ValidationError: {
