@@ -25,6 +25,10 @@ module.exports = {
   },
 
   feed: function(req, res) {
-    return res.view();
+    return res.view('home/feed', {
+      data: {
+
+      }
+    });
   }
 };

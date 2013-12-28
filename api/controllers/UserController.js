@@ -48,7 +48,7 @@ module.exports = {
 
       return res.view('user/show', {
         user: user,
-        partial_name: 'tweets',
+        partial_name: 'tweet/index',
         selected: 'tweets',
         data: {
 
@@ -150,7 +150,7 @@ module.exports = {
 
         return res.view('user/show', {
           user: user,
-          partial_name: 'peers',
+          partial_name: 'user/peers',
           selected: 'followers',
           data: {
             users: followers,
@@ -184,7 +184,7 @@ module.exports = {
 
         return res.view('user/show', {
           user: user,
-          partial_name: 'peers',
+          partial_name: 'user/peers',
           selected: 'following',
           data: {
             users: followees,
