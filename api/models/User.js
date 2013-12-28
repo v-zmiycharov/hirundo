@@ -71,15 +71,13 @@ module.exports = {
     followers: {
       type: 'array',
       defaultsTo: []
+    },
+
+    toJSON: function() {
+      var obj = this.toObject();
+      delete obj.password;
+      return obj;
     }
-  },
-
-  toJSON: function() {
-    var obj = this.toObject();
-
-    delete obj.password;
-
-    return obj;
   },
 
   beforeCreate: function(values, next) {

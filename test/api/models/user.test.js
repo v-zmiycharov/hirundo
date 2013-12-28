@@ -3,11 +3,11 @@ var assert = require('assert');
 
 describe('User', function() {
 
-  before(function () {
-    User.destroy(function() {});
-  });
-
   describe('#create', function() {
+
+    beforeEach(function () {
+      User.destroy(function() {});
+    });
 
     it("should create new user", function(done) {
       createUser("Joe", function(err, user) {
@@ -43,5 +43,19 @@ describe('User', function() {
         done();
       });
     }
+  }),
+
+  describe('#find', function() {
+
+    before(function () {
+      User.create(test.fixtures.users.Joe, function(err, user) {});
+    });
+
+    it("should not tell its password to the world", function(done) {
+      User.find().done(function(err, user) {
+        assert.equal(user.password, undefined);
+        done();
+      });
+    });
   });
 });
