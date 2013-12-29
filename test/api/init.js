@@ -1,5 +1,6 @@
 var Sails = require('sails');
 var barrels = require('barrels');
+exports.assert = require('assert');
 
 // Load test goodies
 before(function(done) {
