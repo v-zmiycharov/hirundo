@@ -83,14 +83,10 @@ module.exports = {
   beforeCreate: function(values, next) {
     if (!values.password || values.password != values.password_confirmation) {
       return next({
-          password_confirmation: {
-            ValidationError: {
-              password: [{
-                data: "",
-                message: "Password doesn't match password confirmation."
-              }]
-            }
-        }
+        password_confirmation: [{
+          data: "",
+          message: "Password doesn't match password confirmation."
+        }]
       });
     }
 
