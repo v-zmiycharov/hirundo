@@ -4,8 +4,10 @@ describe('User', function() {
 
   describe('#create', function() {
 
-    beforeEach(function () {
-      User.destroy(function() {});
+    before(function (done) {
+      User.destroy(function() {
+        done();
+      });
     });
 
     it("should create new user", function(done) {
@@ -44,10 +46,12 @@ describe('User', function() {
     }
   }),
 
-  describe('#find', function() {
+  describe('interface', function() {
 
-    before(function () {
-      User.create(test.fixtures.users.Joe, function(err, user) {});
+    before(function (done) {
+      User.create(test.fixtures.users.Joe, function(err, user) {
+        done();
+      });
     });
 
     it("should not tell its password to the world", function(done) {
@@ -55,6 +59,57 @@ describe('User', function() {
         test.assert.equal(user.password, undefined);
         done();
       });
+    }),
+
+    it("should tell its name to the world", function(done) {
+      userRespondsTo("name", done);
     });
+
+    it("should tell its bio to the world", function(done) {
+      userRespondsTo("bio", done);
+    });
+
+    it("should tell its location to the world", function(done) {
+      userRespondsTo("location", done);
+    });
+
+    it("should tell its website to the world", function(done) {
+      userRespondsTo("website", done);
+    });
+
+    it("should tell its email to the world", function(done) {
+      userRespondsTo("email", done);
+    });
+
+    it("should tell if it's verified to the world", function(done) {
+      userRespondsTo("isVerified", done);
+    });
+
+    it("should tell if it's verified to the world", function(done) {
+      userRespondsTo("isVerified", done);
+    });
+
+    it("should tell its followees to the world", function(done) {
+      userRespondsTo("followees", done);
+    });
+
+    it("should tell its followers to the world", function(done) {
+      userRespondsTo("followers", done);
+    });
+
+    it("should tell when it's created to the world", function(done) {
+      userRespondsTo("createdAt", done);
+    });
+
+    it("should tell when it's lastly updated to the world", function(done) {
+      userRespondsTo("updatedAt", done);
+    });
+
+    function userRespondsTo(property, done) {
+      User.findOne({ username: test.fixtures.users.Joe.username }, function(err, user) {
+        test.assert.notEqual(user[property], undefined);
+        done();
+      });
+    }
   });
 });
