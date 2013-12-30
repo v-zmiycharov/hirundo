@@ -39,7 +39,7 @@ describe('User', function() {
 
     function userCreationRequires(user, field, done) {
       createUser(user, function(err, user) {
-        test.assert.notEqual(err[field], undefined);
+        test.assert.notEqual(err.ValidationError[field], undefined);
         test.assert.equal(user, undefined);
         done();
       });

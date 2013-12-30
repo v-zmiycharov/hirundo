@@ -1,12 +1,13 @@
-var Sails = require('sails');
+exports.sails = require('sails');
 var barrels = require('barrels');
 exports.assert = require('assert');
+exports.request = require('supertest');
 
 // Load test goodies
 before(function(done) {
-  Sails.lift({
+  exports.sails.lift({
     log: {
-        level: 'error'
+      level: 'error'
     },
     adapters: {
       mongo: {
@@ -17,13 +18,10 @@ before(function(done) {
         pass: ''
       }
     }
-  }, function(err, sails) {
-    // Keep sails app
-    exports.app = sails;
-
+  }, function(err) {
     // Load fixtures
     barrels.populate(function(err) {
-      done(err, sails);
+      done(err, exports.sails);
     });
     exports.fixtures = barrels.objects;
   });
@@ -31,5 +29,5 @@ before(function(done) {
 
 // Clean up the mess..
 after(function(done) {
-  exports.app.lower(done);
+  exports.sails.lower(done);
 });
