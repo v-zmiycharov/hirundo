@@ -1,5 +1,5 @@
 var test = require('../init');
-var controller = require('./init');
+var controller = require('./helper');
 
 describe('User', function() {
 
