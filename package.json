@@ -14,8 +14,6 @@
     "passport-local": "~0.1.6",
     "sails-mongo": "~0.9.6",
     "holder": "0.0.0",
-    "supertest": "~0.8.2",
-    "barrels": "0.0.2",
     "express": "~3.4.7"
   },
   "scripts": {
@@ -30,6 +28,7 @@
   "devDependencies": {
     "mocha": "~1.16.2",
     "supertest": "~0.8.2",
-    "sails-memory": "~0.9.1"
+    "sails-memory": "~0.9.1",
+    "passport-stub": "~0.1.5"
   }
 }
