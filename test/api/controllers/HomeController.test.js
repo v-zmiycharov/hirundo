@@ -12,7 +12,7 @@ describe('Home', function() {
       });
 
       it('GET / should return 200', function(done) {
-        controller.goesTo('/', done);
+        controller.gets('/', done);
       });
     }),
 

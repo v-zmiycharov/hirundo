@@ -23,7 +23,7 @@ describe('Feed', function() {
       });
 
       it('GET /feed should return 200', function(done) {
-        controller.goesTo('/feed', done);
+        controller.gets('/feed', done);
       });
     });
   });

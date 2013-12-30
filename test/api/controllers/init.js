@@ -1,7 +1,13 @@
 var test = require('../init');
 
-exports.goesTo = function(address, done) {
+exports.gets = function(address, done) {
   test.request.get(address).expect(200).end(function(err, res) {
+    done();
+  });
+}
+
+exports.posts = function(address, done) {
+  test.request.post(address).expect(200).end(function(err, res) {
     done();
   });
 }

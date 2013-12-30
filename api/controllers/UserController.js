@@ -24,7 +24,6 @@ module.exports = {
   create: function(req, res, next) {
     User.create(req.params.all(), function userCreated(err, user) {
       if (err) {
-        console.log(err);
         req.session.flash = {
           err: err
         }
@@ -74,23 +73,37 @@ module.exports = {
   },
 
   update: function(req, res, next) {
-    var values = {
-      name: req.param('name'),
-      bio: req.param('bio'),
-      location: req.param('location'),
-      website: req.param('website')
-    }
-
-    if (req.param('password') && req.param('password') == req.param('password_confirmation')) {
-      values.password = req.param('password');
-    }
-
-    User.update(req.param('id'), values, function userUpdated(err) {
+    User.findOne(req.param('id'), function foundUser(err, user) {
       if (err) {
-        return res.redirect('/user/edit/' + req.param('id'));
+        return next(err);
       }
 
-      return res.redirect('/' + req.param('id'));
+      if (!user) {
+        return next();
+      }
+
+      if (user.id != req.session.passport.user) {
+        return next();
+      }
+
+      var values = {
+        name: req.param('name'),
+        bio: req.param('bio'),
+        location: req.param('location'),
+        website: req.param('website')
+      }
+
+      if (req.param('password') && req.param('password') == req.param('password_confirmation')) {
+        values.password = req.param('password');
+      }
+
+      User.update(req.param('id'), values, function userUpdated(err) {
+        if (err) {
+          return res.redirect('/user/edit/' + req.param('id'));
+        }
+
+        return res.redirect('/' + req.param('id'));
+      });
     });
   },
 
@@ -101,11 +114,11 @@ module.exports = {
       }
 
       if (!user) {
-        return next('User doesn\'t exist.');
+        return next();
       }
 
       if (user.id != req.session.passport.user) {
-        return next('You don\'t have permission for this action.');
+        return next();
       }
 
       req.logout();

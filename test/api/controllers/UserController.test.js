@@ -12,11 +12,19 @@ describe('User', function() {
       });
 
       it('GET /user/new should return 200', function(done) {
-        controller.goesTo('/user/new', done);
+        controller.gets('/user/new', done);
       }),
 
       it('GET /1 should be redirected to /', function(done) {
         controller.redirects('/1', '/', done);
+      }),
+
+      it('GET /1/followers should be redirected to /', function(done) {
+        controller.redirects('/1/followers', '/', done);
+      }),
+
+      it('GET /1/following should be redirected to /', function(done) {
+        controller.redirects('/1/following', '/', done);
       }),
 
       it('GET /user should be redirected to /', function(done) {
@@ -25,6 +33,18 @@ describe('User', function() {
 
       it('GET /user/edit/1 should be redirected to /', function(done) {
         controller.redirects('/user/edit/1', '/', done);
+      }),
+
+      it('POST /user/create should be redirected to /user/new', function(done) {
+        controller.redirects('/user/create', '/user/new', done);
+      }),
+
+      it('POST /user/update/1 should be redirected to /', function(done) {
+        controller.redirects('/user/update/1', '/', done);
+      }),
+
+      it('POST /user/destroy/1 should be redirected to /', function(done) {
+        controller.redirects('/user/destroy/1', '/', done);
       });
     }),
 
@@ -39,15 +59,35 @@ describe('User', function() {
       }),
 
       it('GET /1 should return 200', function(done) {
-        controller.goesTo('/1', done);
+        controller.gets('/1', done);
+      }),
+
+      it('GET /1/followers return 200', function(done) {
+        controller.gets('/1/followers', done);
+      }),
+
+      it('GET /1/following return 200', function(done) {
+        controller.gets('/1/following', done);
       }),
 
       it('GET /user should return 200', function(done) {
-        controller.goesTo('/user', done);
+        controller.gets('/user', done);
       }),
 
-      it('GET /user/edit/1 should be redirected to /', function(done) {
-        controller.goesTo('/user/edit/1', done);
+      it('GET /user/edit/1 should return 200', function(done) {
+        controller.gets('/user/edit/1', done);
+      }),
+
+      it('POST /user/create should return 200', function(done) {
+        controller.posts('/user/create', done);
+      }),
+
+      it('POST /user/update/1 should return 200', function(done) {
+        controller.posts('/user/update/1', done);
+      }),
+
+      it('POST /user/destroy/1 should return 200', function(done) {
+        controller.posts('/user/destroy/1', done);
       });
     });
   });

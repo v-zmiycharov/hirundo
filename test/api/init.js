@@ -8,6 +8,7 @@ before(function(done) {
     log: {
       level: 'error'
     },
+    csrf: false,
     adapters: {
       mongo: {
         module: 'sails-mongo',
