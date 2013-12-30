@@ -43,6 +43,13 @@ after(function(done) {
 
 exports.loggedAs = function(user) {
   passportStub.login([{
-    username: user.username
+    username: user.username,
+    id: 1,
+    followees: [],
+    followers: []
   }]);
+}
+
+exports.loggedOut = function() {
+  passportStub.logout();
 }

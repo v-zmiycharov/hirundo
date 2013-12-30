@@ -1,4 +1,5 @@
 var test = require('../init');
+var controller = require('./init');
 
 describe('Feed', function() {
 
@@ -6,11 +7,12 @@ describe('Feed', function() {
 
     describe('Not logged', function(done) {
 
+      before(function() {
+        test.loggedOut();
+      });
+
       it('GET /feed should be redirected to /', function(done) {
-        test.request.get('/feed').expect(302).end(function(err, res) {
-          test.assert.equal(res.headers.location, '/');
-          done();
-        });
+        controller.redirects('/feed', '/', done);
       });
     }),
 
@@ -21,9 +23,7 @@ describe('Feed', function() {
       });
 
       it('GET /feed should return 200', function(done) {
-        test.request.get('/feed').expect(200).end(function(err, res) {
-          done();
-        });
+        controller.goesTo('/feed', done);
       });
     });
   });

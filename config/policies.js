@@ -16,20 +16,20 @@ module.exports.policies = {
 
   // Default policy for all controllers and actions
   // (`true` allows public access)
-  '*': ['flash', 'isAuthenticated'],
+  '*': ['flash', 'authenticated'],
 
   HomeController: {
-    'index': ['flash'],
-    'feed': ['flash', 'isAuthenticated'],
+    'index': ['flash', 'notAuthenticated'],
+    'feed': ['flash', 'authenticated'],
   },
 
   UserController: {
-  	'new': ['flash'],
-    'create': ['flash'],
+  	'new': ['flash', 'notAuthenticated'],
+    'create': ['flash', 'notAuthenticated'],
   },
 
   AuthenticationController: {
-    'logout': ['flash', 'isAuthenticated'],
+    'logout': ['flash', 'authenticated'],
     '*': ['flash'],
   }
 
