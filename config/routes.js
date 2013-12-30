@@ -37,9 +37,9 @@ module.exports.routes = {
   '/unfollow/:followee_id': 'RelationsController.unfollow',
   'post /login': 'AuthenticationController.login',
   'get /logout': 'AuthenticationController.logout',
-  '/:id/followers': 'UserController.followers',
-  '/:id/following': 'UserController.following',
-  '/:id': 'UserController.show',
+  '/:username/followers': 'UserController.followers',
+  '/:username/following': 'UserController.following',
+  '/:username': 'UserController.show',
 
   /*
   // But what if you want your home page to display

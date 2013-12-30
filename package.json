@@ -14,12 +14,13 @@
     "passport-local": "~0.1.6",
     "sails-mongo": "~0.9.6",
     "holder": "0.0.0",
-    "express": "~3.4.7"
+    "express": "~3.4.7",
+    "zombie": "~2.0.0-alpha24"
   },
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js",
-    "test": "mocha"
+    "test": "mocha && cucumber.js"
   },
   "main": "app.js",
   "repository": "",
@@ -29,6 +30,7 @@
     "mocha": "~1.16.2",
     "supertest": "~0.8.2",
     "sails-memory": "~0.9.1",
-    "passport-stub": "~0.1.5"
+    "passport-stub": "~0.1.5",
+    "cucumber": "latest"
   }
 }

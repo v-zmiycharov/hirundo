@@ -36,7 +36,7 @@ module.exports = {
   },
 
   show: function(req, res, next) {
-    User.findOne(req.param('id'), function foundUser(err, user) {
+    User.findOne({username: req.param('username')}, function foundUser(err, user) {
       if (err) {
         return next(err);
       }
@@ -141,7 +141,7 @@ module.exports = {
   },
 
   followers: function(req, res, next) {
-    User.findOne(req.param('id'), function foundUser(err, user) {
+    User.findOne({username: req.param('username')}, function foundUser(err, user) {
       if (err) {
         return next(err);
       }
@@ -175,7 +175,7 @@ module.exports = {
   },
 
   following: function(req, res, next) {
-    User.findOne(req.param('id'), function foundUser(err, user) {
+    User.findOne({username: req.param('username')}, function foundUser(err, user) {
       if (err) {
         return next(err);
       }

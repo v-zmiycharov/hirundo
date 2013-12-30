@@ -15,19 +15,19 @@
   <% } %>
   <ul class="nav nav-pills">
     <li <% if (selected == 'tweets') { %> class="active" <% } %>>
-      <a href="/<%= user.id %>">
+      <a href="/<%= user.username %>">
         <span class="badge pull-right">42</span>
         Tweets
       </a>
     </li>
     <li <% if (selected == 'followers') { %> class="active" <% } %>>
-      <a href="/<%= user.id %>/followers">
+      <a href="/<%= user.username %>/followers">
         <span class="badge pull-right"><%- user.followers.length %></span>
         Followers
       </a>
     </li>
     <li <% if (selected == 'following') { %> class="active" <% } %>>
-      <a href="/<%= user.id %>/following">
+      <a href="/<%= user.username %>/following">
         <span class="badge pull-right"><%- user.followees.length %></span>
         Following
       </a>
