@@ -7,7 +7,7 @@
  * @docs        :: http://sailsjs.org/#!documentation/policies
  *
  */
-module.exports = function(req, res, next){
+module.exports = function(req, res, next) {
   if (req.isAuthenticated()) {
     res.locals.currentUser = req.user[0];
     return next();

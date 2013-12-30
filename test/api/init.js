@@ -1,7 +1,6 @@
 exports.sails = require('sails');
-var barrels = require('barrels');
 exports.assert = require('assert');
-exports.request = require('supertest');
+var passportStub = require('passport-stub');
 
 // Load test goodies
 before(function(done) {
@@ -19,11 +18,21 @@ before(function(done) {
       }
     }
   }, function(err) {
+    // Install passport stub
+    passportStub.install(exports.sails.express.app);
+
     // Load fixtures
-    barrels.populate(function(err) {
-      done(err, exports.sails);
-    });
-    exports.fixtures = barrels.objects;
+    exports.fixtures = {};
+    var files = require('fs').readdirSync('./test/api/fixtures/');
+    for (var i in files) {
+      var fileName = './fixtures/' + files[i];
+      var ruleName = files[i].replace('.json', '');
+      exports.fixtures[ruleName] = require(fileName);
+    }
+    exports.request = require('supertest')(exports.sails.express.app);
+
+    // Go on..
+    done();
   });
 });
 
@@ -31,3 +40,9 @@ before(function(done) {
 after(function(done) {
   exports.sails.lower(done);
 });
+
+exports.loggedAs = function(user) {
+  passportStub.login([{
+    username: user.username
+  }]);
+}

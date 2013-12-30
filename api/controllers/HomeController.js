@@ -22,13 +22,5 @@ module.exports = {
       return res.redirect('/feed');
     }
     return res.view();
-  },
-
-  feed: function(req, res) {
-    return res.view('home/feed', {
-      data: {
-
-      }
-    });
   }
 };
