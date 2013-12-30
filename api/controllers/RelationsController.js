@@ -17,22 +17,34 @@
 
 module.exports = {
 
-  follow: function(req, res) {
+  follow: function(req, res, next) {
     var userId = req.session.passport.user;
     var followeeId = req.param('followee_id');
 
     if (followeeId != userId) {
-      User.findOneById(userId).done(function(err, user) {
-        if (user.followees.indexOf(followeeId) == -1) {
+      User.findOne({id: userId}).done(function(err, user) {
+        if (err) {
+          return next(err);
+        }
+
+        if (user && user.followees.indexOf(followeeId) == -1) {
           var followees = user.followees.concat(followeeId);
           User.update(user.id, { followees: followees }, function(err, models) {
+            if (err) {
+              return next(err);
+            }
+
             User.publishUpdate(user.id, models[0].toJSON());
           });
         }
       });
 
-      User.findOneById(followeeId).done(function(err, followee) {
-        if (followee.followers.indexOf(userId) == -1) {
+      User.findOne({id: followeeId}).done(function(err, followee) {
+        if (err) {
+          return next(err);
+        }
+
+        if (followee && followee.followers.indexOf(userId) == -1) {
           var followers = followee.followers.concat(userId);
           User.update(followee.id, { followers: followers }, function(err, models) {
             User.publishUpdate(followee.id, models[0].toJSON());
@@ -43,23 +55,35 @@ module.exports = {
     return res.redirect('/' + followeeId);
   },
 
-  unfollow: function(req, res) {
+  unfollow: function(req, res, next) {
     var userId = req.session.passport.user;
     var followeeId = req.param('followee_id');
 
     if (followeeId != userId) {
-      User.findOneById(userId).done(function(err, user) {
-        var followees = user.followees.filter(function(id) { id != followeeId });
-        User.update(user.id, { followees: followees }, function(err, models) {
-          User.publishUpdate(user.id, models[0].toJSON());
-        });
+      User.findOne({id: userId}).done(function(err, user) {
+        if (err) {
+          return next(err);
+        }
+
+        if (user) {
+          var followees = user.followees.filter(function(id) { id != followeeId });
+          User.update(user.id, { followees: followees }, function(err, models) {
+            User.publishUpdate(user.id, models[0].toJSON());
+          });
+        }
       });
 
-      User.findOneById(followeeId).done(function(err, followee) {
-        var followers = followee.followers.filter(function(id) { id != userId });
-        User.update(followee.id, { followers: followers }, function(err, models) {
-          User.publishUpdate(followee.id, models[0].toJSON());
-        });
+      User.findOne({id: followeeId}).done(function(err, followee) {
+        if (err) {
+          return next(err);
+        }
+
+        if (followee) {
+          var followers = followee.followers.filter(function(id) { id != userId });
+          User.update(followee.id, { followers: followers }, function(err, models) {
+            User.publishUpdate(followee.id, models[0].toJSON());
+          });
+        }
       });
     }
     return res.redirect('/' + followeeId);
