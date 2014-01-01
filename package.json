@@ -14,8 +14,7 @@
     "passport-local": "~0.1.6",
     "sails-mongo": "~0.9.6",
     "holder": "0.0.0",
-    "express": "~3.4.7",
-    "zombie": "~2.0.0-alpha24"
+    "express": "~3.4.7"
   },
   "scripts": {
     "start": "node app.js",
@@ -31,6 +30,7 @@
     "supertest": "~0.8.2",
     "sails-memory": "~0.9.1",
     "passport-stub": "~0.1.5",
-    "cucumber": "latest"
+    "cucumber": "latest",
+    "zombie": "https://github.com/s2gatev/zombie/tarball/fix-timer-issue"
   }
 }

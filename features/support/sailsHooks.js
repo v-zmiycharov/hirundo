@@ -1,5 +1,4 @@
 var sails = require('sails');
-var passportStub = require('passport-stub');
 var zombie = require('zombie');
 
 module.exports = function() {
@@ -22,9 +21,6 @@ module.exports = function() {
         }
       }
     }, function(err) {
-      // Install passport stub
-      passportStub.install(sails.express.app);
-
       self.browser = new zombie();
 
       // Go on..
