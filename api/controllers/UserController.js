@@ -31,7 +31,7 @@ module.exports = {
         return res.redirect('/user/new');
       }
 
-      return res.redirect('/' + user.id);
+      return res.redirect('/' + user.username);
     });
   },
 
@@ -102,7 +102,7 @@ module.exports = {
           return res.redirect('/user/edit/' + req.param('id'));
         }
 
-        return res.redirect('/' + req.param('id'));
+        return res.redirect('/' + user.username);
       });
     });
   },
