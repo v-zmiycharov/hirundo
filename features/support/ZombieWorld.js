@@ -149,5 +149,31 @@ exports.World = function ZombieWorld(callback) {
     });
   };
 
+  this.generateUserVerification = function(userData, callback) {
+    User.findOne({username: userData.username}, function(err, user) {
+      User.update(user.id, {isVerified: true}, callback);
+    });
+  };
+
+  this.userIsVerified = function(userData, callback) {
+    self.browser.clickLink('#navigation-profile', function() {
+      if (self.browser.query('#verified')) {
+        callback();
+      } else {
+        callback.fail(new Error("User is not verified."));
+      }
+    });
+  };
+
+  this.userIsNotVerified = function(userData, callback) {
+    self.browser.clickLink('#navigation-profile', function() {
+      if (!self.browser.query('#verified')) {
+        callback();
+      } else {
+        callback.fail(new Error("User is verified."));
+      }
+    });
+  };
+
   callback();
 };
