@@ -2,11 +2,11 @@ module.exports = function () {
   this.World = require("../support/ZombieWorld.js").World;
 
   this.Given("I have signed up", function(callback) {
-    this.generateUser(callback);
+    this.generateUser(this.fixtures.users.Joe, callback);
   });
 
   this.When("I enter my credentials", function(callback) {
-    this.authenticateUser(callback);
+    this.authenticateUser(this.fixtures.users.Joe, callback);
   });
 
   this.When("I sign out", function(callback) {
@@ -14,11 +14,7 @@ module.exports = function () {
   });
 
   this.When("I sign up", function(callback) {
-    this.signUpUser(callback);
-  });
-
-  this.When("I enter my credentials", function(callback) {
-    this.authenticateUser(callback);
+    this.signUpUser(this.fixtures.users.Joe, callback);
   });
 
   this.Then("I should not be authenticated", function(callback) {
@@ -26,6 +22,6 @@ module.exports = function () {
   });
 
   this.Then("I am authenticated", function(callback) {
-    this.userIsAuthenticated(callback);
+    this.userIsAuthenticated(this.fixtures.users.Joe, callback);
   });
 };

@@ -1,5 +1,6 @@
 var Browser = require('zombie');
 var assert = require('assert');
+var _ = require('lodash');
 
 exports.World = function ZombieWorld(callback) {
   var self = this;
@@ -9,15 +10,9 @@ exports.World = function ZombieWorld(callback) {
     site: 'http://localhost:1337'
   });
 
-  self.generateUser = function(callback) {
-    User.create({
-      username: 'jayjohnes',
-      email: 'jay@mail.com',
-      password: 'mymisteriouspassword',
-      password_confirmation: 'mymisteriouspassword'
-    }, function(err, user) {
+  self.generateUser = function(userData, callback) {
+    User.create(_.cloneDeep(userData), function(err, user) {
       if (err) {
-        console.log(err);
         callback.fail(new Error("Could not generate user."));
       } else {
         callback();
@@ -25,37 +20,37 @@ exports.World = function ZombieWorld(callback) {
     });
   };
 
-  self.signUpUser = function(callback) {
+  self.signUpUser = function(userData, callback) {
     self.browser.visit('/user/new', function() {
-      self.browser.fill('Username', 'jayjohnes').
-                   fill('Email address', 'jay@mail.com').
-                   fill('Password', 'mymisteriouspassword').
-                   fill('Repeat password', 'mymisteriouspassword').
+      self.browser.fill('Username', userData.username).
+                   fill('Email address', userData.email).
+                   fill('Password', userData.password).
+                   fill('Repeat password', userData.password_confirmation).
                    pressButton('Submit', callback);
     });
   };
 
-  self.authenticateUser = function(callback) {
+  self.authenticateUser = function(userData, callback) {
     self.browser.visit('/', function() {
-      self.browser.fill('Username', 'jayjohnes').
-                   fill('Password', 'mymisteriouspassword').
+      self.browser.fill('Username', userData.username).
+                   fill('Password', userData.password).
                    pressButton('Sign in', callback);
     });
   };
 
-  self.updateUserProfile = function(callback) {
+  self.updateUserProfile = function(userData, callback) {
     self.browser.clickLink("#navigation-tools", function() {
       self.browser.clickLink("Edit profile", function() {
-        self.browser.fill('Name', 'Jay Johnes').
-                     fill('Bio', 'My stunning bio!').
+        self.browser.fill('Name', userData.name).
+                     fill('Bio', userData.bio).
                      pressButton('Update', callback);
       });
     });
   };
 
-  self.userIsAuthenticated = function(callback) {
-    self.browser.visit('/jayjohnes', function() {
-      if (self.browser.text('body').indexOf('jayjohnes') == -1) {
+  self.userIsAuthenticated = function(userData, callback) {
+    self.browser.visit('/' + userData.username, function() {
+      if (self.browser.text('body').indexOf(userData.username) == -1) {
         callback.fail(new Error("User is not authenticated."));
       } else {
         callback();
@@ -63,12 +58,12 @@ exports.World = function ZombieWorld(callback) {
     });
   };
 
-  self.userIsUpdated = function(callback) {
-    self.browser.visit('/jayjohnes', function() {
+  self.userIsUpdated = function(userData, callback) {
+    self.browser.visit('/' + userData.username, function() {
       var content = self.browser.text('body');
-      if (content.indexOf('jayjohnes') == -1 ||
-          content.indexOf('Jay Johnes') == -1 ||
-          content.indexOf('My stunning bio!') == -1) {
+      if (content.indexOf(userData.username) == -1 ||
+          content.indexOf(userData.name) == -1 ||
+          content.indexOf(userData.bio) == -1) {
 
         callback.fail(new Error("User info is updated."));
       } else {
