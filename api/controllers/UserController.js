@@ -68,10 +68,6 @@ module.exports = {
     });
   },
 
-  edit: function(req, res, next) {
-    res.view();
-  },
-
   update: function(req, res, next) {
     User.findOne(req.param('id'), function foundUser(err, user) {
       if (err) {

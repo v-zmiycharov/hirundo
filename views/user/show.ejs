@@ -34,7 +34,7 @@
     </li>
     <li>
       <% if (currentUser.id == user.id) { %>
-        <a href="/user/edit/<%= user.id %>">Edit</a>
+        <a href="/settings/profile">Edit</a>
       <% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
         <a href="/follow/<%= user.id %>">Follow</a>
       <% } else { %>

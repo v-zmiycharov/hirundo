@@ -31,10 +31,6 @@ describe('User', function() {
         controller.redirects('/user', '/', done);
       }),
 
-      it('GET /user/edit/1 should be redirected to /', function(done) {
-        controller.redirects('/user/edit/1', '/', done);
-      }),
-
       it('POST /user/create should be redirected to /user/new', function(done) {
         controller.redirects('/user/create', '/user/new', done);
       }),
@@ -72,10 +68,6 @@ describe('User', function() {
 
       it('GET /user should return 200', function(done) {
         controller.gets('/user', done);
-      }),
-
-      it('GET /user/edit/1 should return 200', function(done) {
-        controller.gets('/user/edit/1', done);
       }),
 
       it('POST /user/create should return 200', function(done) {
