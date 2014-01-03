@@ -1,11 +1,10 @@
 var sails = require('sails');
-var Browser = require('zombie');
 
 module.exports = function() {
+  var self = this;
 
-  this.Before(function(done) {
-    var self = this;
-
+  // Should be replaced with a beforeAll hook..
+  this.registerHandler('BeforeFeatures', function(event, done) {
     sails.lift({
       log: {
         level: 'error'
@@ -20,18 +19,13 @@ module.exports = function() {
         }
       }
     }, function(err) {
-      // Instantiate headless browser
-      self.browser = new Browser({
-        site: 'http://localhost:1337'
-      });
-
       // Go on..
       done();
     });
   });
 
-  this.After(function(done) {
-    this.browser.close();
-    sails.lower(done);
+  // Should be replaced with an afterAll hook..
+  this.registerHandler('AfterFeatures', function (event, callback) {
+    sails.lower(callback);
   });
 }

@@ -19,7 +19,7 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js",
-    "test": "mocha && cucumber.js"
+    "test": "mocha && cucumber.js -f=pretty"
   },
   "main": "app.js",
   "repository": "",

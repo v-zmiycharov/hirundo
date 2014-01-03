@@ -1,19 +1,37 @@
-var World = function ZombieWorld(callback) {
+var Browser = require('zombie');
+var assert = require('assert');
+
+exports.World = function ZombieWorld(callback) {
   var self = this;
 
+  // Instantiate headless browser
+  self.browser = new Browser({
+    site: 'http://localhost:1337'
+  });
+
   self.generateUser = function(callback) {
-    self.signUpUser(callback);
+    User.create({
+      username: 'jayjohnes',
+      email: 'jay@mail.com',
+      password: 'mymisteriouspassword',
+      password_confirmation: 'mymisteriouspassword'
+    }, function(err, user) {
+      if (err) {
+        console.log(err);
+        callback.fail(new Error("Could not generate user."));
+      } else {
+        callback();
+      }
+    });
   };
 
   self.signUpUser = function(callback) {
-    User.destroy(function() {
-      self.browser.visit('/user/new', function() {
-        self.browser.fill('Username', 'jayjohnes').
-                     fill('Email address', 'jay@mail.com').
-                     fill('Password', 'mymisteriouspassword').
-                     fill('Repeat password', 'mymisteriouspassword').
-                     pressButton('Submit', callback);
-      });
+    self.browser.visit('/user/new', function() {
+      self.browser.fill('Username', 'jayjohnes').
+                   fill('Email address', 'jay@mail.com').
+                   fill('Password', 'mymisteriouspassword').
+                   fill('Repeat password', 'mymisteriouspassword').
+                   pressButton('Submit', callback);
     });
   };
 
@@ -59,7 +77,21 @@ var World = function ZombieWorld(callback) {
     });
   }
 
+  this.signOutUser = function(callback) {
+    self.browser.clickLink("#navigation-tools", function() {
+      self.browser.clickLink("Sign out", callback);
+    });
+  };
+
+  this.userIsNotAuthenticated = function(callback) {
+    self.browser.visit('/feed', function() {
+      if (self.browser.location.pathname == '/feed') {
+        callback.fail(new Error("User is authenticated."));
+      } else {
+        callback();
+      }
+    });
+  }
+
   callback();
 };
-
-exports.World = World;
