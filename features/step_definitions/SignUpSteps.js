@@ -1,5 +1,5 @@
 module.exports = function () {
-  this.World = require("../support/zombieWorld.js").World;
+  this.World = require("../support/ZombieWorld.js").World;
 
   this.When("I sign up", function(callback) {
     this.signUpUser(callback);
