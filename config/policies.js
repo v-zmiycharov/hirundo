@@ -32,6 +32,11 @@ module.exports.policies = {
     'login': ['flash', 'notAuthenticated'],
     'logout': ['flash', 'authenticated'],
     '*': ['flash'],
+  },
+
+  RelationsController: {
+    'follow': ['flash', 'authenticated', 'notAuthenticatedUser'],
+    'unfollow': ['flash', 'authenticated', 'notAuthenticatedUser'],
   }
 
   /*
