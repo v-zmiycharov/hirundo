@@ -70,7 +70,7 @@ exports.World = function ZombieWorld(callback) {
         callback();
       }
     });
-  }
+  };
 
   this.signOutUser = function(callback) {
     self.browser.clickLink("#navigation-tools", function() {
@@ -86,7 +86,68 @@ exports.World = function ZombieWorld(callback) {
         callback();
       }
     });
-  }
+  };
+
+  this.followUser = function(userData, callback) {
+    self.browser.visit('/' + userData.username, function() {
+      self.browser.clickLink('Follow', callback);
+    });
+  };
+
+  this.userIsFollowed = function(userData, callback) {
+    self.browser.clickLink('#navigation-profile', function() {
+      self.browser.clickLink('#following', function() {
+        var content = self.browser.text('body');
+        if (content.indexOf(userData.username) == -1) {
+          callback.fail(new Error("User does not follow."));
+        } else {
+          callback();
+        }
+      });
+    });
+  };
+
+  this.userIsFollowing = function(userData, callback) {
+    self.browser.clickLink('#navigation-profile', function() {
+      self.browser.clickLink('#followers', function() {
+        var content = self.browser.text('body');
+        if (content.indexOf(userData.username) == -1) {
+          callback.fail(new Error("User does not follow."));
+        } else {
+          callback();
+        }
+      });
+    });
+  };
+
+  this.generateUserRelation = function(followerData, followeeData, callback) {
+    User.findOne({username: followerData.username}, function(err, follower) {
+      User.findOne({username: followeeData.username}, function(err, followee) {
+        User.update(follower.id, {followees: [followee.username]}, function() {
+          User.update(followee.id, {followers: [follower.username]}, callback);
+        });
+      });
+    });
+  };
+
+  this.unfollowUser = function(userData, callback) {
+    self.browser.visit('/' + userData.username, function() {
+      self.browser.clickLink('Unfollow', callback);
+    });
+  };
+
+  this.userIsNotFollowed = function(userData, callback) {
+    self.browser.clickLink('#navigation-profile', function() {
+      self.browser.clickLink('#following', function() {
+        var content = self.browser.text('body');
+        if (content.indexOf(userData.username) != -1) {
+          callback.fail(new Error("User does follow."));
+        } else {
+          callback();
+        }
+      });
+    });
+  };
 
   callback();
 };

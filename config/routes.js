@@ -33,8 +33,8 @@ module.exports.routes = {
   //
   // (This would also work if you had a file at: `/views/home.ejs`)
   '/': 'HomeController.index',
-  '/follow/:followee_id': 'RelationsController.follow',
-  '/unfollow/:followee_id': 'RelationsController.unfollow',
+  '/follow/:followee_username': 'RelationsController.follow',
+  '/unfollow/:followee_username': 'RelationsController.unfollow',
   'post /login': 'AuthenticationController.login',
   'get /logout': 'AuthenticationController.logout',
   '/:username/followers': 'UserController.followers',

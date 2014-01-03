@@ -78,7 +78,7 @@ module.exports = {
         return next();
       }
 
-      if (user.id != req.session.passport.user) {
+      if (user.username != req.session.passport.user) {
         return next();
       }
 
@@ -93,9 +93,9 @@ module.exports = {
         values.password = req.param('password');
       }
 
-      User.update(req.param('id'), values, function userUpdated(err) {
+      User.update(user.id, values, function userUpdated(err) {
         if (err) {
-          return res.redirect('/user/edit/' + req.param('id'));
+          return res.redirect('/settings/profile');
         }
 
         return res.redirect('/' + user.username);
@@ -147,7 +147,7 @@ module.exports = {
       }
 
       User.find().where({
-        id: user.followers
+        username: user.followers
       }).exec(function(err, followers) {
         if (err) {
           return next(err);
@@ -181,7 +181,7 @@ module.exports = {
       }
 
       User.find().where({
-        id: user.followees
+        username: user.followees
       }).exec(function(err, followees) {
         if (err) {
           return next(err);
