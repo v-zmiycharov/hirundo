@@ -15,23 +15,17 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-function performRelation(action, username, targetUsername, next) {
+function performRelation(action, username, targetUsername) {
   User.findOne({username: username}).done(function(err, user) {
-    if (err) {
-      req.session.flash = {err: err};
-      return next(err);
-    }
-
-    if (!user) {
-      return next();
+    if (err || !user) {
+      return err;
     }
 
     var data = action(user, targetUsername);
 
     User.update(user.id, data, function(err, models) {
       if (err) {
-        req.session.flash = {err: err};
-        return next(err);
+        return err;
       }
 
       User.publishUpdate(user.id, models[0].toJSON());
@@ -66,10 +60,16 @@ function relation(action) {
     var username = req.session.passport.user;
     var followeeUsername = req.param('username');
 
-    performRelation(action('followees'), username, followeeUsername, next);
-    performRelation(action('followers'), followeeUsername, username, next);
+    var err = performRelation(action('followees'), username, followeeUsername);
+    if (!err) {
+      err = performRelation(action('followers'), followeeUsername, username);
+    }
 
-    return res.redirect('/' + followeeUsername);
+    if (err) {
+      return next(err);
+    } else {
+      return res.redirect('/' + followeeUsername);
+    }
   }
 }
 
