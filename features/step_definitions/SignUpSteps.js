@@ -1,5 +1,5 @@
 module.exports = function () {
-  this.World = require("../support/zombieWorld.js").World; // overwrite default World constructor
+  this.World = require("../support/zombieWorld.js").World;
 
   this.When("I sign up", function(callback) {
     this.signUpUser(callback);

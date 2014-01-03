@@ -12,8 +12,6 @@ module.exports = {
 
   schema: true,
 
-  autoPK: false,
-
   attributes: {
 
   	name: {

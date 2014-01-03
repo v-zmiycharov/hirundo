@@ -29,6 +29,7 @@ module.exports.policies = {
   },
 
   AuthenticationController: {
+    'login': ['flash', 'notAuthenticated'],
     'logout': ['flash', 'authenticated'],
     '*': ['flash'],
   }

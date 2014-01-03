@@ -31,6 +31,6 @@
     "sails-memory": "~0.9.1",
     "passport-stub": "~0.1.5",
     "cucumber": "latest",
-    "zombie": "https://github.com/s2gatev/zombie/tarball/fix-timer-issue"
+    "zombie": "https://github.com/s2gatev/zombie/tarball/master"
   }
 }

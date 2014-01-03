@@ -1,5 +1,5 @@
 var sails = require('sails');
-var zombie = require('zombie');
+var Browser = require('zombie');
 
 module.exports = function() {
 
@@ -10,7 +10,6 @@ module.exports = function() {
       log: {
         level: 'error'
       },
-      csrf: false,
       adapters: {
         mongo: {
           module: 'sails-mongo',
@@ -21,7 +20,10 @@ module.exports = function() {
         }
       }
     }, function(err) {
-      self.browser = new zombie();
+      // Instantiate headless browser
+      self.browser = new Browser({
+        site: 'http://localhost:1337'
+      });
 
       // Go on..
       done();
@@ -29,6 +31,7 @@ module.exports = function() {
   });
 
   this.After(function(done) {
+    this.browser.close();
     sails.lower(done);
   });
 }
