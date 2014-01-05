@@ -40,7 +40,8 @@ module.exports = {
         }, function(err) {
           return res.view({
             data: {
-              tweets: tweets
+              tweets: tweets,
+              emptyMessage: 'Your feed is empty right now.'
             }
           });
         });

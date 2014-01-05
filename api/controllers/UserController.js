@@ -63,7 +63,8 @@ module.exports = {
               selected: 'tweets',
               data: {
                 tweetsCount: tweetsCount,
-                tweets: tweets
+                tweets: tweets,
+                emptyMessage: 'You have not tweeted anything yet.'
               }
             });
           });
