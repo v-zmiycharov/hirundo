@@ -19,7 +19,7 @@ module.exports = {
 
   create: function(req, res, next) {
     var data = req.params.all();
-    data.author = req.session.passport.user;
+    data.authorId = req.session.passport.user;
 
     Tweet.create(data, function(err, tweet) {
       if (err) {

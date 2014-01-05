@@ -16,7 +16,7 @@
   <ul class="nav nav-pills">
     <li <% if (selected == 'tweets') { %> class="active" <% } %>>
       <a href="/<%= user.username %>" id="tweets">
-        <span class="badge pull-right">42</span>
+        <span class="badge pull-right"><%- data.tweetsCount %></span>
         Tweets
       </a>
     </li>
@@ -35,7 +35,7 @@
     <li>
       <% if (currentUser.id == user.id) { %>
         <a href="/settings/profile">Edit</a>
-      <% } else if (currentUser.followees.indexOf(user.username) == -1) { %>
+      <% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
         <a href="/follow/<%= user.username %>">Follow</a>
       <% } else { %>
         <a href="/unfollow/<%= user.username %>">Unfollow</a>

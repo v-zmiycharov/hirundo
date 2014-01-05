@@ -123,8 +123,8 @@ exports.World = function ZombieWorld(callback) {
   this.generateUserRelation = function(followerData, followeeData, callback) {
     User.findOne({username: followerData.username}, function(err, follower) {
       User.findOne({username: followeeData.username}, function(err, followee) {
-        User.update(follower.id, {followees: [followee.username]}, function() {
-          User.update(followee.id, {followers: [follower.username]}, callback);
+        User.update(follower.id, {followees: [followee.id]}, function() {
+          User.update(followee.id, {followers: [follower.id]}, callback);
         });
       });
     });

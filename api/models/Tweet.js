@@ -12,7 +12,7 @@ module.exports = {
 
   attributes: {
 
-    author: {
+    authorId: {
       type: 'string',
       required: true
     },
@@ -21,6 +21,20 @@ module.exports = {
       type: 'string',
       maxLength: 140,
       required: true
+    },
+
+    autor: function(callback) {
+      User.findOneById(this.authorId, function(err, user) {
+        if (err) {
+          return callback(err);
+        }
+
+        if ( ! user) {
+          return callback();
+        }
+
+        return callback(null, user);
+      });
     }
   }
 };

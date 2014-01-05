@@ -14,7 +14,7 @@
     <div class="media-body">
       <h4 class="media-heading">
         <% if (tweet.author.name) { %>
-          <%= tweet.author.name %>
+          <a href="/<%= tweet.author.username %>"><%= tweet.author.name %></a>
         <% } else { %>
           <%= tweet.author.username %>
         <% } %>

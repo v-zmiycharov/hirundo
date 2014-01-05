@@ -25,7 +25,7 @@ function performRelation(action, user, targetUser) {
 function add(type) {
   return function(user, targetUserId) {
     var data = {};
-    if (user && user.followees.indexOf(targetUserId) == -1) {
+    if (user && user[type].indexOf(targetUserId) == -1) {
       data[type] = user[type].concat(targetUserId);
     }
     return data;

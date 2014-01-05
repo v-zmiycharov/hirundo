@@ -17,9 +17,34 @@
 
 module.exports = {
 
-  index: function(req, res) {
-    return res.view({
-      data: {}
+  index: function(req, res, next) {
+    User.findOne({id: req.session.passport.user}, function foundUser(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        return next();
+      }
+
+      Tweet.find({
+        where: {
+          authorId: user.followees.concat(user.id)
+        }, sort: 'createdAt DESC'
+      }).exec(function(err, tweets) {
+        async.map(tweets, function(tweet, callback){
+          User.findOne({id: tweet.authorId}, function(err, user) {
+            tweet.author = user;
+            callback();
+          })
+        }, function(err) {
+          return res.view({
+            data: {
+              tweets: tweets
+            }
+          });
+        });
+      });
     });
   }
 };

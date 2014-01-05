@@ -45,22 +45,27 @@ module.exports = {
         return next();
       }
 
-      Tweet.find().where({
-        author: user.followees.concat(user.id)
+      Tweet.find({
+        where: {
+          authorId: user.id
+        }, sort: 'createdAt DESC'
       }).exec(function(err, tweets) {
         async.map(tweets, function(tweet, callback){
-          User.findOne({username: tweet.author}, function(err, user) {
+          User.findOne({id: tweet.authorId}, function(err, user) {
             tweet.author = user;
             callback();
           })
         }, function(err) {
-          return res.view('user/show', {
-            user: user,
-            partial_name: 'tweet/index',
-            selected: 'tweets',
-            data: {
-              tweets: tweets
-            }
+          Tweet.count({authorId: user.id}, function(err, tweetsCount) {
+            return res.view('user/show', {
+              user: user,
+              partial_name: 'tweet/index',
+              selected: 'tweets',
+              data: {
+                tweetsCount: tweetsCount,
+                tweets: tweets
+              }
+            });
           });
         });
       });
@@ -168,14 +173,17 @@ module.exports = {
           followers = [];
         }
 
-        return res.view('user/show', {
-          user: user,
-          partial_name: 'user/peers',
-          selected: 'followers',
-          data: {
-            users: followers,
-            emptyMessage: 'Nobody follows you yet.'
-          }
+        Tweet.count({authorId: user.id}, function(err, tweetsCount) {
+          return res.view('user/show', {
+            user: user,
+            partial_name: 'user/peers',
+            selected: 'followers',
+            data: {
+              users: followers,
+              tweetsCount: tweetsCount,
+              emptyMessage: 'Nobody follows you yet.'
+            }
+          });
         });
       });
     });
@@ -202,14 +210,17 @@ module.exports = {
           followees = [];
         }
 
-        return res.view('user/show', {
-          user: user,
-          partial_name: 'user/peers',
-          selected: 'following',
-          data: {
-            users: followees,
-            emptyMessage: 'You are not following anybody yet.'
-          }
+        Tweet.count({authorId: user.id}, function(err, tweetsCount) {
+          return res.view('user/show', {
+            user: user,
+            partial_name: 'user/peers',
+            selected: 'following',
+            data: {
+              users: followees,
+              tweetsCount: tweetsCount,
+              emptyMessage: 'You are not following anybody yet.'
+            }
+          });
         });
       });
     });
