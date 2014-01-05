@@ -96,7 +96,7 @@ module.exports = {
       }
 
       values.password = encryptedPassword;
-      next();
+      return next();
     });
   },
 
@@ -108,9 +108,10 @@ module.exports = {
         }
 
         values.password = encryptedPassword;
-        next();
+        return next();
       });
+    } else {
+      return next();
     }
-    next();
   }
 };

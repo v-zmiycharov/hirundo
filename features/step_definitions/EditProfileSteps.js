@@ -9,6 +9,18 @@ module.exports = function () {
     this.authenticateUser(this.fixtures.users.Joe, callback);
   });
 
+  this.When("I enter my new credentials", function(callback) {
+    this.authenticateUserWithPassword(this.fixtures.users.Joe, "newpassword", callback);
+  });
+
+  this.When("I sign out", function(callback) {
+    this.signOutUser(callback);
+  });
+
+  this.When("I update my password", function(callback) {
+    this.updateUserPassword("newpassword", callback);
+  });
+
   this.When("I update my profile", function(callback) {
     this.updateUserProfile(this.fixtures.users.Joe, callback);
   });

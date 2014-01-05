@@ -181,7 +181,25 @@ exports.World = function ZombieWorld(callback) {
         self.browser.pressButton('Delete', callback);
       });
     });
-  }
+  };
+
+  this.updateUserPassword = function(password, callback) {
+    self.browser.clickLink("#navigation-tools", function() {
+      self.browser.clickLink("Edit profile", function() {
+        self.browser.fill('Password', password).
+                     fill('Repeat password', password).
+                     pressButton('Update', callback);
+      });
+    });
+  };
+
+  this.authenticateUserWithPassword = function(userData, password, callback) {
+    self.browser.visit('/', function() {
+      self.browser.fill('Username', userData.username).
+                   fill('Password', password).
+                   pressButton('Sign in', callback);
+    });
+  };
 
   callback();
 };
