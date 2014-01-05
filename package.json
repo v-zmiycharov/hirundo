@@ -13,8 +13,7 @@
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "sails-mongo": "~0.9.6",
-    "holder": "0.0.0",
-    "express": "~3.4.7"
+    "holder": "0.0.0"
   },
   "scripts": {
     "start": "node app.js",

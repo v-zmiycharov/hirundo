@@ -1,53 +1,31 @@
 <form action="/tweet/create" method="POST" role="form" style="width: 100%;">
   <div class="form-group">
-    <textarea class="form-control" name="text" id="text" placeholder="Compose new Tweet..."></textarea>
+    <textarea class="form-control" name="content" id="content" placeholder="Compose new Tweet..."></textarea>
   </div>
   <button type="submit" class="btn btn-primary btn-default">Tweet</button>
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
 </form>
-<div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" src="holder.js/64x64" alt="s2gatev">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Stanislav Gatev</h4>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora, ipsam, eos porro soluta minus exercitationem aut commodi! Fugiat a adipisci voluptates. Saepe, necessitatibus distinctio provident corporis enim ipsum vitae facere.
-    </p>
 
-    <a href="/tweet/reply">Reply</a>
-    <a href="/tweet/retweet">Retweet</a>
-    <a href="/tweet/favorite">Favorite</a>
+<% _.each(data.tweets, function(tweet) { %>
+  <div class="media">
+    <a class="pull-left" href="#">
+      <img class="media-object" src="holder.js/64x64" alt="<%= tweet.author.username %>">
+    </a>
+    <div class="media-body">
+      <h4 class="media-heading">
+        <% if (tweet.author.name) { %>
+          <%= tweet.author.name %>
+        <% } else { %>
+          <%= tweet.author.username %>
+        <% } %>
+      </h4>
+      <p>
+        <%= tweet.content %>
+      </p>
 
-    <div class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object" src="holder.js/64x64" alt="s2gatev">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">Stanislav Gatev</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora, ipsam, eos porro soluta minus exercitationem aut commodi! Fugiat a adipisci voluptates. Saepe, necessitatibus distinctio provident corporis enim ipsum vitae facere.
-        </p>
-
-        <a href="/tweet/reply">Reply</a>
-        <a href="/tweet/retweet">Retweet</a>
-        <a href="/tweet/favorite">Favorite</a>
-      </div>
-    </div>
-    <div class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object" src="holder.js/64x64" alt="s2gatev">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">Stanislav Gatev</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempora, ipsam, eos porro soluta minus exercitationem aut commodi! Fugiat a adipisci voluptates. Saepe, necessitatibus distinctio provident corporis enim ipsum vitae facere.
-        </p>
-
-        <a href="/tweet/reply">Reply</a>
-        <a href="/tweet/retweet">Retweet</a>
-        <a href="/tweet/favorite">Favorite</a>
-      </div>
+      <a href="/tweet/reply">Reply</a>
+      <a href="/tweet/retweet">Retweet</a>
+      <a href="/tweet/favorite">Favorite</a>
     </div>
   </div>
-</div>
+<% }) %>

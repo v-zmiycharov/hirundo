@@ -15,40 +15,29 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-function performRelation(action, username, targetUsername) {
-  User.findOne({username: username}).done(function(err, user) {
-    if (err || !user) {
-      return err;
-    }
-
-    var data = action(user, targetUsername);
-
-    User.update(user.id, data, function(err, models) {
-      if (err) {
-        return err;
-      }
-
-      User.publishUpdate(user.id, models[0].toJSON());
-    });
+function performRelation(action, user, targetUser) {
+  var data = action(user, targetUser.id);
+  User.update(user.id, data, function(err, models) {
+    User.publishUpdate(user.id, models[0].toJSON());
   });
 }
 
 function add(type) {
-  return function(user, targetUsername) {
+  return function(user, targetUserId) {
     var data = {};
-    if (user && user.followees.indexOf(targetUsername) == -1) {
-      data[type] = user[type].concat(targetUsername);
+    if (user && user.followees.indexOf(targetUserId) == -1) {
+      data[type] = user[type].concat(targetUserId);
     }
     return data;
   }
 }
 
 function remove(type) {
-  return function(user, targetUsername) {
+  return function(user, targetUserId) {
     var data = {};
     if (user) {
-      data[type] = user[type].filter(function(username) {
-        username != targetUsername
+      data[type] = user[type].filter(function(id) {
+        id != targetUserId
       });
     }
     return data;
@@ -57,19 +46,21 @@ function remove(type) {
 
 function relation(action) {
   return function(req, res, next) {
-    var username = req.session.passport.user;
-    var followeeUsername = req.param('username');
+    User.findOne({id: req.session.passport.user}, function(err, user) {
+      if (err || !user) {
+        return next(err);
+      }
 
-    var err = performRelation(action('followees'), username, followeeUsername);
-    if (!err) {
-      err = performRelation(action('followers'), followeeUsername, username);
-    }
+      User.findOne({username: req.param('username')}, function(err, targetUser) {
+        if (err || !targetUser) {
+          return next(err);
+        }
 
-    if (err) {
-      return next(err);
-    } else {
-      return res.redirect('/' + followeeUsername);
-    }
+        performRelation(action('followees'), user, targetUser);
+        performRelation(action('followers'), targetUser, user);
+        return res.redirect('/' + targetUser.username);
+      });
+    });
   }
 }
 

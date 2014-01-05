@@ -45,13 +45,24 @@ module.exports = {
         return next();
       }
 
-      return res.view('user/show', {
-        user: user,
-        partial_name: 'tweet/index',
-        selected: 'tweets',
-        data: {
-
-        }
+      Tweet.find().where({
+        author: user.followees.concat(user.id)
+      }).exec(function(err, tweets) {
+        async.map(tweets, function(tweet, callback){
+          User.findOne({username: tweet.author}, function(err, user) {
+            tweet.author = user;
+            callback();
+          })
+        }, function(err) {
+          return res.view('user/show', {
+            user: user,
+            partial_name: 'tweet/index',
+            selected: 'tweets',
+            data: {
+              tweets: tweets
+            }
+          });
+        });
       });
     });
   },
@@ -69,7 +80,7 @@ module.exports = {
   },
 
   update: function(req, res, next) {
-    User.findOne(req.param('id'), function foundUser(err, user) {
+    User.findOne({id: req.param('id')}, function foundUser(err, user) {
       if (err) {
         return next(err);
       }
@@ -78,7 +89,7 @@ module.exports = {
         return next();
       }
 
-      if (user.username != req.session.passport.user) {
+      if (user.id != req.session.passport.user) {
         return next();
       }
 
@@ -147,7 +158,7 @@ module.exports = {
       }
 
       User.find().where({
-        username: user.followers
+        id: user.followers
       }).exec(function(err, followers) {
         if (err) {
           return next(err);
@@ -181,7 +192,7 @@ module.exports = {
       }
 
       User.find().where({
-        username: user.followees
+        id: user.followees
       }).exec(function(err, followees) {
         if (err) {
           return next(err);
