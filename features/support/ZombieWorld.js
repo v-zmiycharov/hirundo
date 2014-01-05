@@ -175,5 +175,13 @@ exports.World = function ZombieWorld(callback) {
     });
   };
 
+  this.deleteUserProfile = function(callback) {
+    self.browser.clickLink("#navigation-tools", function() {
+      self.browser.clickLink("Edit profile", function() {
+        self.browser.pressButton('Delete', callback);
+      });
+    });
+  }
+
   callback();
 };
