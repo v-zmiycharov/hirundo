@@ -20,7 +20,7 @@ function performRelation(action, user, targetUser) {
   User.update(user.id, data, function(err, models) {
     User.publishUpdate(user.id, models[0].toJSON());
   });
-}
+};
 
 function add(type) {
   return function(user, targetUserId) {
@@ -30,7 +30,7 @@ function add(type) {
     }
     return data;
   }
-}
+};
 
 function remove(type) {
   return function(user, targetUserId) {
@@ -42,7 +42,7 @@ function remove(type) {
     }
     return data;
   }
-}
+};
 
 function relation(action) {
   return function(req, res, next) {
@@ -62,7 +62,7 @@ function relation(action) {
       });
     });
   }
-}
+};
 
 module.exports = {
 

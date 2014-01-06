@@ -14,7 +14,7 @@ module.exports = {
 
   attributes: {
 
-  	name: {
+    name: {
       type: 'string',
       maxLength: 40,
       defaultsTo: ""

@@ -28,4 +28,4 @@ module.exports = function() {
   this.registerHandler('AfterFeatures', function (event, callback) {
     sails.lower(callback);
   });
-}
+};
