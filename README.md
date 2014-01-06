@@ -15,5 +15,21 @@ Twitter clone written in Node using Sails.js. This is a university course projec
 3. Start the mongo server with `mongod`
 4. Run the app using `sails lift`
 
-# Running the tests
+## Running the tests
 You can run the tests with `npm test`. This will execute the unit tests located under `/test` as well as the feature tests located under `/features`.
+
+## Backlog
+Some features that need to be implemented:
+
+#### Core
+* Tweet replies
+* Retweets
+* Favorite tweets
+* User photos
+* Hash tags
+
+#### Goodies
+* Live tweet feed (using socket.io)
+* Messaging - private messaging between the users (using socket.io)
+* Search - searching for users and hashtags
+* Use Mongo associations in model relations (requires v0.10 of Sails)
