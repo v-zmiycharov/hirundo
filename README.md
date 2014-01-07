@@ -21,12 +21,14 @@ You can run the tests with `npm test`. This will execute the unit tests located 
 ## Backlog
 Some features that need to be implemented:
 
+### For uni project
+* User photos
+* Hash tags
+
 #### Core
 * Tweet replies
 * Retweets
 * Favorite tweets
-* User photos
-* Hash tags
 
 #### Goodies
 * Live tweet feed (using socket.io)
