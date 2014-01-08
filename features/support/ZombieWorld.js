@@ -1,4 +1,4 @@
-var Browser = require('zombie');
+var zombie = require('zombie');
 var assert = require('assert');
 var _ = require('lodash');
 
@@ -6,8 +6,9 @@ exports.World = function ZombieWorld(callback) {
   var self = this;
 
   // Instantiate headless browser
-  self.browser = new Browser({
-    site: 'http://localhost:1337'
+  self.browser = new zombie({
+    site: 'http://localhost:1337',
+    runScripts: false
   });
 
   self.generateUser = function(userData, callback) {
@@ -31,7 +32,7 @@ exports.World = function ZombieWorld(callback) {
   };
 
   self.authenticateUser = function(userData, callback) {
-    self.browser.visit('/', function() {
+    self.browser.visit('/', function(e, browser) {
       self.browser.fill('Username', userData.username).
                    fill('Password', userData.password).
                    pressButton('Sign in', callback);
