@@ -21,12 +21,11 @@ You can run the tests with `npm test`. This will execute the unit tests located 
 ## Backlog
 Some features that need to be implemented:
 
-## University
+#### University
 * User photos
 * Hash tags
 * View max 50 messages
 * Refresh tweets in 30 seconds
-* Set max msg length
 * Ability to set place from where the message is sent
 * View for all users - indexed, followed and non-followed (difference by design), verificated
 
