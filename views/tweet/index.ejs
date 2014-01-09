@@ -1,6 +1,6 @@
 <form action="/tweet/create" method="POST" role="form" style="width: 100%;">
   <div class="form-group">
-    <textarea class="form-control" name="content" id="content" placeholder="Compose new Tweet..."></textarea>
+    <textarea class="form-control" name="content" id="tweet-content" placeholder="Compose new Tweet..."></textarea>
   </div>
   <button type="submit" class="btn btn-primary btn-default">Tweet</button>
   <input type="hidden" name="_csrf" value="<%= _csrf %>">

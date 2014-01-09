@@ -202,5 +202,38 @@ exports.World = function ZombieWorld(callback) {
     });
   };
 
+  this.tweet = function(message, callback) {
+    self.browser.visit('/', function() {
+      self.browser.fill('#tweet-content', message).
+                   pressButton('Tweet', callback);
+    });
+  };
+
+  this.userTweeted = function(user, message, callback) {
+    self.browser.visit('/' + user.username, function() {
+      self.browser.clickLink('#tweets', function() {
+        var content = self.browser.text('body');
+        if (content.indexOf(message) == -1) {
+          callback.fail(new Error("Tweet is not displayed."));
+        } else {
+          callback();
+        }
+      });
+    });
+  };
+
+  this.userNotTweeted = function(user, message, callback) {
+    self.browser.visit('/' + user.username, function() {
+      self.browser.clickLink('#tweets', function() {
+        var content = self.browser.text('body');
+        if (content.indexOf(message) != -1) {
+          callback.fail(new Error("Tweet is not displayed."));
+        } else {
+          callback();
+        }
+      });
+    });
+  };
+
   callback();
 };
