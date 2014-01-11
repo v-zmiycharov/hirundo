@@ -22,6 +22,9 @@ module.exports = {
     data.authorId = req.session.passport.user;
 
     Tweet.create(data, function(err, tweet) {
+		console.log("something");
+		console.log(tweet.authorId);
+		console.log(tweet.location)
       if (err) {
         req.session.flash = {
           err: err

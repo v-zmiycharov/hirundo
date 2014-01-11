@@ -23,6 +23,12 @@ module.exports = {
       required: true
     },
 
+    location: {
+      type: 'string',
+      maxLength: 100,
+      required: false
+    },
+
     autor: function(callback) {
       User.findOneById(this.authorId, function(err, user) {
         if (err) {
