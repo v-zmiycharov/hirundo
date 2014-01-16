@@ -22,6 +22,9 @@ You can run the tests with `npm test`. This will execute the unit tests located 
 Some features that need to be implemented:
 
 #### University
+* Refactor html
+* Validation messages for: Registration, login, Edit profile, add message (Max length)
+* Navigation links
 * User photos
 * Hash tags
 * View max 50 messages
