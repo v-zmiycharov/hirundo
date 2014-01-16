@@ -1,8 +1,13 @@
 <form action="/tweet/create" method="POST" role="form" style="width: 100%;">
-  <div class="form-group">
-    <textarea class="form-control" name="content" id="tweet-content" placeholder="Compose new Tweet..."></textarea>
+  <div class="col-xs-6 form-group">
+  	<input type="text" name="location" id="location" class="form-control" placeholder="Tweeted from..."/>
   </div>
-  <button type="submit" class="btn btn-primary btn-default">Tweet</button>
+  <div class="col-xs-12 form-group">
+  	<textarea class="form-control" name="content" id="content" placeholder="Compose new Tweet..."></textarea>
+  </div>
+  <div class="col-xs-12 form-group">
+	  <button type="submit" class="btn btn-primary btn-default">Tweet</button>
+  </div>
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
 </form>
 <% if (data.tweets.length == 0) { %>
@@ -10,27 +15,35 @@
     <%= emptyMessage %>
   </div>
 <% } %>
-<% _.each(data.tweets, function(tweet) { %>
-  <div class="media">
-    <a class="pull-left" href="#">
-      <img class="media-object" src="holder.js/64x64" alt="<%= tweet.author.username %>">
-    </a>
-    <div class="media-body">
-      <h4 class="media-heading">
-        <a href="/<%= tweet.author.username %>">
-          <% if (tweet.author.name) { %>
-            <%= tweet.author.name %>
-          <% } else { %>
-            <%= tweet.author.username %>
-          <% } %>
-        </a>
-      </h4>
-      <p>
-        <%= tweet.content %>
-      </p>
-      <a href="/tweet/reply">Reply</a>
-      <a href="/tweet/retweet">Retweet</a>
-      <a href="/tweet/favorite">Favorite</a>
-    </div>
-  </div>
-<% }) %>
+<div class="clearfix"></div>
+<div class="container">
+	<% _.each(data.tweets, function(tweet) { %>
+	  <div class="media">
+		<a class="pull-left" href="#">
+		  <img class="media-object" src="holder.js/64x64" alt="<%= tweet.author.username %>">
+		</a>
+		<div class="media-body">
+		  <h4 class="media-heading">
+			<a href="/<%= tweet.author.username %>">
+			  <% if (tweet.author.name) { %>
+				<%= tweet.author.name %>
+			  <% } else { %>
+				<%= tweet.author.username %>
+			  <% } %>
+			</a>
+		  </h4>
+		  <% if (tweet.location) { %>
+			<p>
+				<%= tweet.location %>
+			</p>
+		  <% } %>
+		  <p>
+			<%= tweet.content %>
+		  </p>
+		  <a href="/tweet/reply">Reply</a>
+		  <a href="/tweet/retweet">Retweet</a>
+		  <a href="/tweet/favorite">Favorite</a>
+		</div>
+	  </div>
+	<% }) %>
+</div>

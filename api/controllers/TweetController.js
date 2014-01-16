@@ -21,6 +21,34 @@ module.exports = {
     var data = req.params.all();
     data.authorId = req.session.passport.user;
 
+	data.hashTags = [];
+	
+	var regexp = new RegExp('#([^\\s]*)','g');
+	var content = data.content;
+	var temp;
+	var hashTags = new Array();
+
+	//do {
+	//	temp = regexp.exec(content);
+	//	if (temp) {
+	//		hashTags.push(temp[1]);
+	//	}
+	//} while (temp);
+	
+	//hashTags.forEach(function(tag) {
+	//	HashTag.findOne({text: tag}, function foundTag(err, tagFound) {
+	//		if (err) {
+	//			return next(err);
+	//		}
+	//		if (!tagFound) {
+	//			return next();
+	//		}
+	//		else {
+	//			data.hashTags.push(tagFound.id);
+	//		}
+	//	});
+	//});
+
     Tweet.create(data, function(err, tweet) {
       if (err) {
         req.session.flash = {
