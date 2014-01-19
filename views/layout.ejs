@@ -69,6 +69,43 @@
     <!-- holder.js -->
     <script type="text/javascript" src="/js/holder.js"></script>
 
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+
+    <script type="text/javascript">
+      $(document).on('click', '#get-tweet-location', function() {
+        var btn = $(this);
+        btn.button('loading');
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            $.ajax({
+              type: 'GET',
+              dataType: "json",
+              url: "http://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+                position.coords.latitude + "," + position.coords.longitude + "&sensor=false&language=en",
+              data: {},
+              success: function(data) {
+                $.each(data['results'], function(i, val) {
+                  if (val['types'][0] == 'locality' && val['types'][1] == 'political') {
+                    $('#tweet-location').html('<button type="button" id="remove-tweet-location" class="btn btn-info" data-toggle="button">' + val['formatted_address'] + '</button><input type="hidden" name="location" value="' + val['formatted_address'] + '" />');
+                  }
+                });
+              },
+              error: function () { btn.button('reset'); }
+            });
+            btn.button('complete');
+          });
+        } else {
+          btn.button('reset');
+        }
+      });
+
+      $(document).on('click', '#remove-tweet-location', function() {
+        $('#tweet-location').html('<button type="button" data-loading-text="Loading..." id="get-tweet-location" class="btn btn-primary">Location</button>');
+      });
+    </script>
+
+
     <!-- Your scripts here? -->
     <!-- Your scripts here? -->
     <!-- Your scripts here? -->

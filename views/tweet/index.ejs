@@ -1,13 +1,13 @@
 <form action="/tweet/create" method="POST" role="form" style="width: 100%;">
-  <div class="col-xs-6 form-group">
-  	<input type="text" name="location" id="location" class="form-control" placeholder="Tweeted from..."/>
-  </div>
-  <div class="col-xs-12 form-group">
+  <div class="form-group">
   	<textarea class="form-control" name="content" id="content" placeholder="Compose new Tweet..."></textarea>
   </div>
-  <div class="col-xs-12 form-group">
-	  <button type="submit" class="btn btn-primary btn-default">Tweet</button>
-  </div>
+  <button type="submit" class="btn btn-primary btn-default">Tweet</button>
+  <span id="tweet-location">
+    <button type="button" data-loading-text="Loading..." id="get-tweet-location" class="btn btn-primary">
+      Location
+    </button>
+  </span>
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
 </form>
 <% if (data.tweets.length == 0) { %>
@@ -15,8 +15,7 @@
     <%= emptyMessage %>
   </div>
 <% } %>
-<div class="clearfix"></div>
-<div class="container">
+<div class="container" style="margin-top: 20px;">
 	<% _.each(data.tweets, function(tweet) { %>
 	  <div class="media">
 		<a class="pull-left" href="#">
@@ -24,21 +23,19 @@
 		</a>
 		<div class="media-body">
 		  <h4 class="media-heading">
-			<a href="/<%= tweet.author.username %>">
-			  <% if (tweet.author.name) { %>
-				<%= tweet.author.name %>
-			  <% } else { %>
-				<%= tweet.author.username %>
-			  <% } %>
-			</a>
+  			<a href="/<%= tweet.author.username %>">
+  			  <% if (tweet.author.name) { %>
+  				  <%= tweet.author.name %>
+  			  <% } else { %>
+  				  <%= tweet.author.username %>
+  			  <% } %>
+  			</a>
 		  </h4>
-		  <% if (tweet.location) { %>
-			<p>
-				<%= tweet.location %>
-			</p>
-		  <% } %>
 		  <p>
-			<%= tweet.content %>
+  			<%= tweet.content %>
+        <% if (tweet.location) { %>
+          <span class="label label-info">Somewhere around <%= tweet.location %></span>
+        <% } %>
 		  </p>
 		  <a href="/tweet/reply">Reply</a>
 		  <a href="/tweet/retweet">Retweet</a>
