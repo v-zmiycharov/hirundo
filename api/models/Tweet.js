@@ -28,11 +28,11 @@ module.exports = {
       maxLength: 100,
       required: false
     },
-	
-	hashTags: {
-      type: 'array',
-      defaultsTo: []
-	},
+
+  	hashTags: {
+        type: 'array',
+        defaultsTo: []
+  	},
 
     autor: function(callback) {
       User.findOneById(this.authorId, function(err, user) {
@@ -48,39 +48,27 @@ module.exports = {
       });
     }
   },
-  
-  beforeCreate: function(values, next) {  
-	var regexp = new RegExp('#([^\\s]*)','g');
-	var content = values.content;
-	var temp;
-	var hashTags = new Array();
 
-	do {
-		temp = regexp.exec(content);
-		if (temp) {
-			hashTags.push(temp[1]);
-		}
-	} while (temp);
-	
-	hashTags.forEach(function(tag) {
-		HashTag.findOne({text: tag}, function foundTag(err, tagFound) {
-			if (err) {
-				return next(err);
-			}
-			if (!tagFound) {
-				HashTag.create({text: tag}, function createdTag(err, tagCreated) {
-					if (err) {
-						return next(err);
-					}
+  beforeCreate: function(values, next) {
+    var hashTags = values.content.match(/#([^\s]*)/g);
 
-					if (!tagCreated) {
-						return next();
-					}
-				});
-			}
-		});
-	});
+    if (!hashTags) {
+      return next();
+    }
 
-    return next();
+  	async.map(hashTags, function(tag, callback) {
+      var tagText = tag.replace('#', '');
+  		HashTag.findOrCreate({text: tagText}, {text: tagText}, function(err, hashTag) {
+        callback(null, hashTag.id);
+      });
+  	}, function(err, hashTagIds) {
+      if (err) {
+        return next(err);
+      }
+
+      values.hashTags = hashTagIds;
+
+      return next();
+    });
   }
 };
