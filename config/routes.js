@@ -39,7 +39,8 @@ module.exports.routes = {
   'get /logout': 'AuthenticationController.logout',
   '/:username/followers': 'UserController.followers',
   '/:username/following': 'UserController.following',
-  '/:username': 'UserController.show'
+  '/:username': 'UserController.show',
+  'post /search/:term': 'SearchController.new'
 
   /*
   // But what if you want your home page to display
