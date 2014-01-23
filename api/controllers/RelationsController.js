@@ -37,7 +37,7 @@ function remove(type) {
     var data = {};
     if (user) {
       data[type] = user[type].filter(function(id) {
-        id != targetUserId
+        return id != targetUserId;
       });
     }
     return data;
