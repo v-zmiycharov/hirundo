@@ -110,6 +110,10 @@ module.exports = {
         values.password = req.param('password');
       }
 
+      if (req.param('photo')) {
+        values.photo = req.param('photo');
+      }
+
       User.update(user.id, values, function userUpdated(err) {
         if (err) {
           return res.redirect('/settings/profile');

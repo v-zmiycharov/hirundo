@@ -31,6 +31,17 @@
     <label for="password_confirmation">Repeat password</label>
     <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Repeat the password">
   </div>
+  <div class="form-group">
+    <label for="password_confirmation">Photo</label>
+    <div class="input-group">
+      <span class="input-group-btn">
+        <span class="btn btn-primary btn-file">
+            Browse <input type="file" name="photo" id="photo">
+        </span>
+      </span>
+      <input type="text" class="form-control" readonly>
+    </div>
+  </div>
   <button type="submit" class="btn btn-primary btn-default">Update</button>
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
 </form>
