@@ -24,13 +24,10 @@ Some features that need to be implemented:
 #### University
 * Refactor html
 * Validation messages for: Registration, login, Edit profile, add message (Max length)
-* Navigation links
-* User photos
-* Hash tags
-* View max 50 messages
-* Refresh tweets in 30 seconds
-* Ability to set place from where the message is sent
-* View for all users - indexed, followed and non-followed (difference by design), verificated
+* User photos - Stanislav
+* View max 50 messages and refresh tweets in 30 seconds - Stanislav
+* Search for multiple hashtags - Valentin
+* Script for generating fake data - Valentin
 
 #### Core
 * Tweet replies
