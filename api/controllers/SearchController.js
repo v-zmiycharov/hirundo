@@ -15,12 +15,54 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-function findUser(username) {
+function findUser(name, res) {
+	var regex = RegExp("/.*" + name + ".*/");
+	var query = { username: new RegExp('^' + name) };
+	User.find(query, function (err, users) {
+		if (users.length == 0) {
+          users = [];
+        }
 
+		return res.view('search/user', {
+			searchWord: name,
+			partial_name: 'user/peers',
+			selected: 'users',
+			data: {
+			  users: users,
+			  emptyMessage: 'Nobody found.'
+			}
+		});
+	});
 };
 
-function findHashTag(tag) {
-
+function findHashTag(tag, res) {
+	HashTag.findOne({text: tag}, function (err, hashTag) {
+		Tweet.find({
+			where: {
+			  hashTags: hashTag.id
+			}, sort: 'createdAt DESC'
+		}).exec(function(err, tweets){
+			async.map(tweets, function(tweet, callback){
+				User.findOne({id: tweet.authorId}, function(err, user) {
+					tweet.author = user;
+					callback();
+				})
+			}, function(err) {
+			Tweet.count({hashTags: hashTag.id}, function(err, tweetsCount) {
+				return res.view('search/hash', {
+				  hashTagText: hashTag.text,
+				  partial_name: 'tweet/index',
+				  selected: 'tweets',
+				  data: {
+					tweetsCount: tweetsCount,
+					tweets: tweets,
+					emptyMessage: 'You have not tweeted anything yet.'
+				  }
+				});
+			});
+        });
+      });
+	});
 };
 
 module.exports = {
@@ -28,9 +70,14 @@ module.exports = {
   new: function(req, res, next) {
     var term = req.param('term');
     if (term[0] == '@') {
-      findUser(term)
+      findUser(term.replace('@', ''), res);
     } else if (term[0] == '#') {
-      findHashTag(term);
+      findHashTag(term.replace('#', ''), res);
     }
+  },
+  
+  hash: function(req, res, next) {
+	var term = req.param('term');
+    findHashTag(term, res);
   },
 };

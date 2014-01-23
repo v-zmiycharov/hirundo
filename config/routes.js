@@ -40,7 +40,8 @@ module.exports.routes = {
   '/:username/followers': 'UserController.followers',
   '/:username/following': 'UserController.following',
   '/:username': 'UserController.show',
-  'post /search/:term': 'SearchController.new'
+  'post /search': 'SearchController.new',
+  '/search/hash/:term': 'SearchController.hash'
 
   /*
   // But what if you want your home page to display

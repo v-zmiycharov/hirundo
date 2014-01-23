@@ -11,6 +11,14 @@
     <div class="media-body">
       <h4 class="media-heading"><a href="/<%- user.username %>"><%= user.username %></a></h4>
       <%- user.bio %>
+	  
+	  <% if (currentUser.id == user.id) { %>
+		  This is you.
+		<% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
+		  <a href="/follow/<%= user.id %>" class="btn btn-sm btn-primary">Follow</a>
+		<% } else { %>
+		  <a href="/unfollow/<%= user.id %>" class="btn btn-sm btn-primary">Unfollow</a>
+		<% } %>
     </div>
   </div>
 <% }) %>
