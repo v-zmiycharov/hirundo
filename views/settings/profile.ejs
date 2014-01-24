@@ -1,4 +1,4 @@
-<form action="/user/update/<%= currentUser.id %>" method="POST" role="form">
+<form action="/user/update/<%= currentUser.id %>" enctype="multipart/form-data" method="POST" role="form">
   <h2>Profile</h2>
   <% if (flash && flash.err && flash.err.ValidationError) { %>
   <ul class="alert alert-success">
@@ -32,22 +32,17 @@
     <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Repeat the password">
   </div>
   <div class="form-group">
-    <label for="password_confirmation">Photo</label>
+    <label for="photo">Photo</label>
     <div class="input-group">
       <span class="input-group-btn">
         <span class="btn btn-primary btn-file">
-            Browse <input type="file" name="photo" id="photo">
+          Browse <input type="file" name="photo" class="form-control" id="photo">
         </span>
       </span>
       <input type="text" class="form-control" readonly>
     </div>
   </div>
-  <button type="submit" class="btn btn-primary btn-default">Update</button>
-  <input type="hidden" name="_csrf" value="<%= _csrf %>">
-</form>
-<br />
-<form action="/user/destroy/<%= currentUser.id %>" method="POST">
-  <input type="hidden" name="_method" value="delete">
-  <input type="submit" class="btn btn-default btn-danger" value="Delete">
+  <input type="submit" class="btn btn-primary btn-default" value="Update">
+  <a class="btn btn-default btn-danger" href="/user/destroy/<%= currentUser.id %>">Delete</a>
   <input type="hidden" name="_csrf" value="<%= _csrf %>">
 </form>
