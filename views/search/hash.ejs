@@ -1,6 +1,24 @@
 <div class='container'>
   <div class="panel-heading">
-    <h3> <%= hashTagText %> </h3>
+	<form action="/search/multipleHash" role="search" method="POST" style="width: 100%;">
+		<div class="row">
+			<div class="col-xs-6">
+				<select multiple id="selected-tags" class="form-control" name="term">
+					<% _.each(allHashTags, function(tag) { %>
+						<% if (tags.indexOf(tag)!=-1) { %>
+							<option value="<%- tag %>" selected><%- tag %></option>
+						<% } else { %>
+							<option value="<%- tag %>"><%- tag %></option>
+						<% }%>
+					<% }) %>
+				</select>
+			</div>
+			<div class="col-xs-3">
+				<button class="btn btn-default" type="submit">Update</button>
+				<input type="hidden" name="_csrf" value="<%= _csrf %>">
+			</div>
+		</div>
+	</form>
   </div>
   <hr>
   <div>

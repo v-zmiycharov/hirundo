@@ -35,11 +35,15 @@ function findUser(name, res) {
 	});
 };
 
-function findHashTag(tag, res) {
-	HashTag.findOne({text: tag}, function (err, hashTag) {
+function findHashTags(tags, res) {
+	async.map(tags, function(tag, callback){
+		HashTag.findOne({text: tag}, function(err, tagFromDB) {
+					callback(null, tagFromDB.id);
+				})
+	}, function (err, hashTagIds){
 		Tweet.find({
 			where: {
-			  hashTags: hashTag.id
+			  hashTags: hashTagIds
 			}, sort: 'createdAt DESC'
 		}).exec(function(err, tweets){
 			async.map(tweets, function(tweet, callback){
@@ -48,20 +52,24 @@ function findHashTag(tag, res) {
 					callback();
 				})
 			}, function(err) {
-			Tweet.count({hashTags: hashTag.id}, function(err, tweetsCount) {
-				return res.view('search/hash', {
-				  hashTagText: hashTag.text,
-				  partial_name: 'tweet/index',
-				  selected: 'tweets',
-				  data: {
-					tweetsCount: tweetsCount,
-					tweets: tweets,
-					emptyMessage: 'You have not tweeted anything yet.'
-				  }
+				HashTag.find({}, function (err, allHash) {
+					async.map(allHash, function(hash, callback){
+						callback(null, hash.text)
+					}, function (err, allHashTags){
+						return res.view('search/hash', {
+							allHashTags: allHashTags,
+							tags: tags,
+							partial_name: 'tweet/index',
+							selected: 'tweets',
+							data: {
+								tweets: tweets,
+								emptyMessage: 'No tweets found.'
+							}
+						});
+					});
 				});
 			});
-        });
-      });
+		});
 	});
 };
 
@@ -72,12 +80,20 @@ module.exports = {
     if (term[0] == '@') {
       findUser(term.replace('@', ''), res);
     } else if (term[0] == '#') {
-      findHashTag(term.replace('#', ''), res);
-    }
+      //findHashTags([term.replace('#', '')], res);
+	  findHashTags(term.replace(/#/g, '').split(' '), res);
+    } else {
+      findUser(term, res);
+	}
   },
   
   hash: function(req, res, next) {
 	var term = req.param('term');
-    findHashTag(term, res);
+    findHashTags([term], res);
+  },
+  
+  multipleHash: function(req, res, next) {
+	var term = req.param('term');
+	findHashTags([term], res);
   },
 };
