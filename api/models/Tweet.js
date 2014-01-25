@@ -59,8 +59,8 @@ module.exports = {
   	async.map(hashTags, function(tag, callback) {
       var tagText = tag.replace('#', '');
   		HashTag.findOrCreate({text: tagText}, {text: tagText}, function(err, hashTag) {
-        callback(null, hashTag.id);
-      });
+			callback(null, hashTag.id);
+		  });
   	}, function(err, hashTagIds) {
       if (err) {
         return next(err);
