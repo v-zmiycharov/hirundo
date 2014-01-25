@@ -41,7 +41,7 @@ module.exports.routes = {
   '/:username/following': 'UserController.following',
   '/:username': 'UserController.show',
   'post /search/:term': 'SearchController.new',
-  'get /photo/show/:id': 'PhotoController.show'
+  'get /photo/show/:id/:size': 'PhotoController.show'
 
   /*
   // But what if you want your home page to display

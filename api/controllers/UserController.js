@@ -15,9 +15,6 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var gm = require("gm");
-var fs = require("fs");
-
 module.exports = {
 
   new: function(req, res) {
@@ -115,6 +112,7 @@ module.exports = {
 
       if (req.files.photo) {
         values.photo = req.files.photo.path;
+        values.photoName = user.id;
       }
 
       User.update(user.id, values, function userUpdated(err) {
@@ -122,27 +120,7 @@ module.exports = {
           return res.redirect('/settings/profile');
         }
 
-        if (values.photo) {
-          fs.readFile(values.photo, function(err, data) {
-            fs.writeFile(__dirname + '/../../public/photos/original/' + user.id + '.jpg', data, function(err) {
-              if (err) {
-                res.view({err: err});
-              }
-
-              gm(values.photo)
-              .resize(64, 64)
-              .write(__dirname + "/../../public/uploads/photos/64/" + user.id + ".jpg", function(err) {
-                if (err) {
-                  res.view({err: err});
-                }
-
-                return res.redirect('/' + user.username);
-              });
-            });
-          });
-        } else {
-          return res.redirect('/' + user.username);
-        }
+        return res.redirect('/' + user.username);
       });
     });
   },

@@ -20,15 +20,15 @@ var fs = require("fs");
 module.exports = {
 
   show: function(req, res, next) {
-    var userId = req.param('id');
-    fs.exists(__dirname + "/../../public/photos/64/" + userId + ".jpg", function(exists) {
-      console.log(exists);
+    var name = req.param('id');
+    var size = req.param('size');
+    fs.exists(__dirname + "/../../public/photos/" + size + "/" + name + ".jpg", function(exists) {
       var photo = "fake";
       if (exists) {
-          photo = userId;
+          photo = name;
       }
 
-      fs.readFile(__dirname + "/../../public/photos/64/" + photo + ".jpg", function(err, img) {
+      fs.readFile(__dirname + "/../../public/photos/" + size + "/" + photo + ".jpg", function(err, img) {
         if (err) {
           return res.view(err);
         }

@@ -6,6 +6,45 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
+var gm = require("gm");
+var fs = require("fs");
+
+function saveOriginal(path, name) {
+  return function(next) {
+    fs.readFile(path, function(err, data) {
+      if (err) {
+        return next(err);
+      }
+
+      fs.mkdir(__dirname + '/../../public/photos/original', function(err) {
+        fs.writeFile(__dirname + '/../../public/photos/original/' + name + '.jpg', data, function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          return next(null);
+        });
+      });
+    });
+  }
+}
+
+function saveResized(path, size, name) {
+  return function(next) {
+    fs.mkdir(__dirname + '/../../public/photos/' + size, function(err) {
+      gm(path)
+      .resize(size, size)
+      .write(__dirname + "/../../public/photos/" + size + "/" + name + ".jpg", function(err) {
+        if (err) {
+          return next(err);
+        }
+
+        return next(null);
+      });
+    });
+  }
+}
+
 module.exports = {
 
   schema: true,
@@ -77,7 +116,9 @@ module.exports = {
   },
 
   beforeCreate: function(values, next) {
-    if (!values.password || values.password != values.password_confirmation) {
+    if (values.password && values.password == values.password_confirmation) {
+      return next();
+    } else {
       return next({
         ValidationError: {
           password_confirmation: [{
@@ -87,7 +128,19 @@ module.exports = {
         }
       });
     }
+  },
 
-    return next();
+  beforeUpdate: function(values, next) {
+    if (values.photo) {
+      async.parallel([
+          saveOriginal(values.photo, values.photoName),
+          saveResized(values.photo, 64, values.photoName),
+          saveResized(values.photo, 128, values.photoName)
+      ], function(err, results) {
+        return next();
+      });
+    } else {
+      return next();
+    }
   }
 };
