@@ -6,9 +6,10 @@
 <% _.each(users, function(user) { %>
   <div class="media" style="width: 60%; margin:0 auto;">
     <a class="pull-left" href="#">
-      <img class="media-object" src="holder.js/64x64" alt="s2gatev">
+      <img class="media-object" src="/photo/show/<%- user.id %>/64" alt="<%= user.username %>">
     </a>
     <div class="media-body">
+<<<<<<< HEAD
 		<h4 class="media-heading"><a href="/<%- user.username %>"><%= user.username %></a></h4>
 		<%- user.bio %>
 		
@@ -21,6 +22,20 @@
 			  <a href="/unfollow/<%= user.username %>" class="btn btn-sm btn-primary">Unfollow</a>
 			<% } %>
 		</div>
+=======
+  		<h4 class="media-heading"><a href="/<%- user.username %>"><%= user.username %></a></h4>
+  		<%- user.bio %>
+
+  		<div class="pull-right">
+  		  <% if (currentUser.id == user.id) { %>
+  			  This is you.
+  			<% } else if (currentUser.followees.indexOf(user.id) == -1) { %>
+  			  <a href="/follow/<%= user.username %>" class="btn btn-sm btn-primary">Follow</a>
+  			<% } else { %>
+  			  <a href="/unfollow/<%= user.username %>" class="btn btn-sm btn-primary">Unfollow</a>
+  			<% } %>
+  		</div>
+>>>>>>> eabdf186ea3b62f6ef6cf17f9bd447cec4621777
     </div>
   </div>
 <% }) %>

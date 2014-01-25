@@ -10,9 +10,18 @@
       <small><%= user.username %></small>
     </h3>
   </div>
-  <% if (user.bio) { %>
-    <div class="well"><%= user.bio %></div>
-  <% } %>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2">
+        <img src="/photo/show/<%- user.id %>/128" alt="<%= user.username %>">
+      </div>
+      <div class="col-xs-10">
+        <% if (user.bio) { %>
+          <div class="well"><%= user.bio %></div>
+        <% } %>
+      </div>
+    </div>
+  </div>
   <div class="container">
 	  <ul class="nav nav-pills">
 		<li <% if (selected == 'tweets') { %> class="active" <% } %>>
