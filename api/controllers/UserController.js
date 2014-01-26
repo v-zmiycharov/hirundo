@@ -59,7 +59,7 @@ module.exports = {
           Tweet.count({authorId: user.id}, function(err, tweetsCount) {
             return res.view('user/show', {
               user: user,
-              partial_name: 'tweet/index',
+              partial_name: 'user/tweets',
               selected: 'tweets',
               data: {
                 tweetsCount: tweetsCount,

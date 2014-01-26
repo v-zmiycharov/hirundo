@@ -1,0 +1,12 @@
+<form action="/tweet/create" method="POST" role="form" style="width: 100%;">
+  <div class="form-group">
+    <textarea class="form-control" name="content" id="tweet-content" placeholder="Compose new Tweet..."></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary btn-default">Tweet</button>
+  <span id="tweet-location">
+    <button type="button" data-loading-text="Loading..." id="get-tweet-location" class="btn btn-primary">
+      Location
+    </button>
+  </span>
+  <input type="hidden" name="_csrf" value="<%= _csrf %>">
+</form>
