@@ -94,6 +94,9 @@ module.exports = {
   
   multipleHash: function(req, res, next) {
 	var term = req.param('term');
-	findHashTags([term], res);
+	if(typeof term === 'string') {
+		term = [term];
+	}
+	findHashTags(term, res);
   },
 };
