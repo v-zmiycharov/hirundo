@@ -38,7 +38,9 @@ function findUser(name, res) {
 function findHashTags(tags, res) {
 	async.map(tags, function(tag, callback){
 		HashTag.findOne({text: tag}, function(err, tagFromDB) {
-					callback(null, tagFromDB.id);
+					if(tagFromDB) {
+						callback(null, tagFromDB.id);
+					}
 				})
 	}, function (err, hashTagIds){
 		Tweet.find({

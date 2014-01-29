@@ -13,7 +13,9 @@
     "passport-local": "~0.1.6",
     "sails-mongo": "~0.9.6",
     "holder": "0.0.0",
-    "gm": "latest"
+    "gm": "latest",
+    "async": "latest",
+    "mongojs": "latest"
   },
   "scripts": {
     "start": "node app.js",
