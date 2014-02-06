@@ -6,10 +6,7 @@
   <% } %>
     <div class="form-group">
       <label for="username">Username</label>
-      <!--<div class="input-group">
-        <span class="input-group-addon">@</span>-->
-        <input type="text" class="form-control" name="username" id="username" placeholder="Enter your username" required/>
-      <!--</div>-->
+      <input type="text" class="form-control" name="username" id="username" placeholder="Enter your username" required/>
       <% if (flash && flash.err && flash.err.username) { %>
         <%- flash.err.username[0].message %>
       <% } %>
