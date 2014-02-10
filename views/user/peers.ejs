@@ -1,10 +1,10 @@
 <% if (users.length == 0) { %>
-  <div class="alert alert-info">
+  <div class="alert alert-info" style="margin: 0;">
     <%= emptyMessage %>
   </div>
 <% } %>
 <% _.each(users, function(user) { %>
-  <div class="media" style="width: 60%; margin:0 auto;">
+  <div class="media">
     <a class="pull-left" href="#">
       <img class="media-object" src="/photo/show/<%- user.id %>/64" alt="<%= user.username %>">
     </a>
