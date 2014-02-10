@@ -9,11 +9,11 @@
   <% } %>
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" class="form-control" name="name" id="name" value="<%= currentUser.name %>" placeholder="Enter your name">
+    <input type="text" class="form-control" name="name" id="name" value="<%= currentUser.name %>" maxlength="40" placeholder="Enter your name">
   </div>
   <div class="form-group">
     <label for="bio">Bio</label>
-    <textarea class="form-control" name="bio" id="bio" placeholder="Summarize your bio in 160 characters"><%= currentUser.bio %></textarea>
+    <textarea class="form-control" name="bio" id="bio" placeholder="Summarize your bio in 160 characters" maxlength="160"><%= currentUser.bio %></textarea>
   </div>
   <div class="form-group">
     <label for="location">Location</label>

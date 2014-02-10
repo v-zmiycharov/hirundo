@@ -70,6 +70,8 @@
     <script type="text/javascript" src="/js/underscore.js"></script>
     <!-- select2.js -->
     <script type="text/javascript" src="/js/select2.min.js"></script>
+    <!-- jquery.validate.js -->
+    <script type="text/javascript" src="/js/jquery.validate.js"></script>
 
     <!-- Google Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
@@ -133,6 +135,7 @@
 	<script>
 		$(document).ready(function() {
 			$('#selected-tags').select2();
+			$('#login_form, #sign_up_form').validate();
 		});
 	</script>
 

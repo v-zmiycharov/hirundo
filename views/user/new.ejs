@@ -1,4 +1,4 @@
-<form action="/user/create" method="POST" role="form" class="sign_up_form">
+<form action="/user/create" method="POST" role="form" class="sign_up_form" id="sign_up_form">
   <h2>Sign up</h2>
 
   <% if (flash && flash.err && flash.err.username) { %>
@@ -6,10 +6,7 @@
   <% } %>
     <div class="form-group">
       <label for="username">Username</label>
-      <div class="input-group">
-        <span class="input-group-addon">@</span>
-        <input type="text" class="form-control" name="username" id="username" placeholder="Enter your username">
-      </div>
+      <input type="text" class="form-control" name="username" id="username" placeholder="Enter your username" required/>
       <% if (flash && flash.err && flash.err.username) { %>
         <%- flash.err.username[0].message %>
       <% } %>
@@ -23,7 +20,7 @@
   <% } %>
     <div class="form-group">
       <label for="email">Email address</label>
-      <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email">
+      <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required/>
       <% if (flash && flash.err && flash.err.email) { %>
         <%- flash.err.email[0].message %>
       <% } %>
@@ -37,7 +34,7 @@
   <% } %>
     <div class="form-group">
       <label for="password">Password</label>
-      <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password">
+      <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password" required/>
       <% if (flash && flash.err && flash.err.password) { %>
         <%- flash.err.password[0].message %>
       <% } %>
@@ -51,7 +48,7 @@
   <% } %>
     <div class="form-group">
       <label for="password_confirmation">Repeat password</label>
-      <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Repeat the password">
+      <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Repeat the password" required/>
       <% if (flash && flash.err && flash.err.password_confirmation) { %>
         <%- flash.err.password_confirmation[0].message %>
       <% } %>
