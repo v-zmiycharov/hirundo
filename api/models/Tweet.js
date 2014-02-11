@@ -30,44 +30,69 @@ module.exports = {
     },
 
   	hashTags: {
-        type: 'array',
-        defaultsTo: []
+      type: 'array',
+      defaultsTo: []
   	},
 
-    autor: function(callback) {
+    mentions: {
+      type: 'array',
+      defaultsTo: []
+    },
+
+    autor: function(next) {
       User.findOneById(this.authorId, function(err, user) {
         if (err) {
-          return callback(err);
+          return next(err);
         }
 
         if (!user) {
-          return callback();
+          return next();
         }
 
-        return callback(null, user);
+        return next(null, user);
       });
     }
   },
 
   beforeCreate: function(values, next) {
-    var hashTags = values.content.match(/#([^\s]*)/g);
+    async.waterfall([
+      function(callback) {
+        var hashTags = values.content.match(/#([^\s]*)/g);
 
-    if (!hashTags) {
-      return next();
-    }
+        if (!hashTags) {
+          return callback(null);
+        }
 
-  	async.map(hashTags, function(tag, callback) {
-      var tagText = tag.replace('#', '');
-  		HashTag.findOrCreate({text: tagText}, {text: tagText}, function(err, hashTag) {
-			callback(null, hashTag.id);
-		  });
-  	}, function(err, hashTagIds) {
-      if (err) {
-        return next(err);
+        async.map(hashTags, function(tag, c) {
+          var tagText = tag.replace('#', '');
+          HashTag.findOrCreate({text: tagText}, {text: tagText}, function(err, hashTag) {
+            c(null, hashTag.id);
+          });
+        }, function(err, hashTagIds) {
+          values.hashTags = hashTagIds;
+          return callback(null);
+        });
+      },
+      function(callback) {
+        var mentions = values.content.match(/@([^\s]*)/g);
+
+        if (!mentions) {
+          return callback(null);
+        }
+
+        async.map(mentions, function(mention, c) {
+          var username = mention.replace('@', '');
+          console.log(username);
+          User.findOne({username: username}, function(err, user) {
+            c(null, user.id);
+          });
+        }, function(err, user_ids) {
+          console.log(user_ids);
+          values.mentions = user_ids;
+          return callback(null);
+        });
       }
-
-      values.hashTags = hashTagIds;
-
+    ], function(err, result) {
       return next();
     });
   }

@@ -32,7 +32,7 @@
               <div class="col-sm-6 col-md-6">
                 <form action="/search" method="POST" class="navbar-form" role="search" method="get" id="search-form" name="search-form">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" data-role="tagsinput" id="search-bar" name="term" value="">
+                    <input type="text" class="form-control" placeholder="Search" data-role="tagsinput" id="search-bar" name="term" value="<% if (locals.search_items) { %> <%- search_items %> <% } %>">
                       <div class="input-group-btn">
                     <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
                     </div>

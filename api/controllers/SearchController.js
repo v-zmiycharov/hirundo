@@ -68,7 +68,8 @@ module.exports = {
               data: {
                 tweets: tweets,
                 emptyMessage: 'No tweets found.'
-              }
+              },
+              search_items: 'abc, def'
             });
           });
         });

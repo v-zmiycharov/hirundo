@@ -20,7 +20,7 @@
   			</a>
 		  </h4>
 		  <p>
-  			<%- tweet.content.replace(/(#([^\s]*))/g, '<a href="/search/hash:$2">$1</a>') %>
+  			<%- tweet.content.replace(/(#([^\s]*))/g, '<a href="/search/hash:$2">$1</a>').replace(/(@([^\s]*))/g, '<a href="/$2">$1</a>') %>
         <% if (tweet.location) { %>
           <span class="label label-info">Somewhere around <%= tweet.location %></span>
         <% } %>
