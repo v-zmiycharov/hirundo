@@ -30,9 +30,11 @@ module.exports = {
       Tweet.find({
         where: {
           authorId: user.followees.concat(user.id)
-        }, sort: 'createdAt DESC'
+        },
+        sort: 'createdAt DESC',
+        limit: 50
       }).exec(function(err, tweets) {
-        async.map(tweets, function(tweet, callback){
+        async.map(tweets, function(tweet, callback) {
           User.findOne({id: tweet.authorId}, function(err, user) {
             tweet.author = user;
             callback();

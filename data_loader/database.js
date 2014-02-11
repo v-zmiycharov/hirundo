@@ -36,7 +36,7 @@ function insertUsers(callback) {
 			"website" : "",
 			"bio" : ""
 		};
-		
+
 		db.user.insert(user, function(err, addedUser) {
 			index++;
 			next();
@@ -54,15 +54,15 @@ function insertTweets(callback) {
 		}
 		var index=0
 			lastIndex = users.length;
-			
+
 		async.whilst(function () {
 			return index < lastIndex;
 		},
 		function (next) {
-		
+
 			var jIndex = 1,
 				jLastIndex = 50;
-			
+
 			async.whilst(function () {
 			  return jIndex <= jLastIndex;
 			},
@@ -70,7 +70,7 @@ function insertTweets(callback) {
 				db.tweet.insert({
 					"content": helper.getTweet(),
 					"location": helper.getLocation(),
-					"authorId": users[index]["_id"],
+					"authorId": users[index]["_id"].toHexString(),
 					"hashTags": []
 				}, function(err, tweet) {
 					jIndex++;
@@ -81,7 +81,7 @@ function insertTweets(callback) {
 				index++;
 				next();
 			});
-			
+
 		},
 		function (err) {
 			callback();
@@ -96,7 +96,7 @@ function insertHashTags(callback) {
 		}
 		var index=0
 			lastIndex = tweets.length;
-		
+
 		async.whilst(function () {
 			return index < lastIndex;
 		},
@@ -107,7 +107,7 @@ function insertHashTags(callback) {
 					var tagText = tag.replace('#', '');
 					db.hashtag.update({text: tagText}, {text: tagText}, {upsert:true}, function(err, hashTagInserted) {
 						db.hashtag.find({text: tagText},function(err, hashTag){
-							callbackFunc(null, hashTag[0]["_id"]);
+							callbackFunc(null, hashTag[0]["_id"].toHexString());
 						});
 					});
 				}, function(err, hashTagIds) {
@@ -116,7 +116,7 @@ function insertHashTags(callback) {
 							hashTagIds = [hashTagIds];
 						}
 						db.tweet.update({
-							_id: tweets[index]._id
+							_id: tweets[index]._id.toHexString()
 						}, {
 							$set:{hashTags: hashTagIds}
 						}, function () {
@@ -134,7 +134,7 @@ function insertHashTags(callback) {
 		function (err) {
 			callback();
 		});
-		
+
 	});
 }
 
@@ -146,7 +146,7 @@ function insertRelations(callback){
 		var index=0
 			lastIndex = users.length
 			followersCount = 20;
-			
+
 		async.whilst(function () {
 			return index < lastIndex;
 		},
@@ -154,12 +154,12 @@ function insertRelations(callback){
 			var arr = getNumbersInRange(lastIndex, followersCount, index);
 			var jIndex=0
 				jLastIndex = arr.length;
-				
+
 			async.whilst(function () {
 				return jIndex < jLastIndex;
 			},
 			function (callbackFunc) {
-				addRelation(users[index]['_id'], users[arr[jIndex]]['_id'], function() {
+				addRelation(users[index]['_id'], users[arr[jIndex]]['_id'].toHexString(), function() {
 					jIndex++;
 					callbackFunc();
 				});

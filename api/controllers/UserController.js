@@ -50,7 +50,8 @@ module.exports = {
           authorId: user.id
         }, sort: 'createdAt DESC'
       }).exec(function(err, tweets) {
-        async.map(tweets, function(tweet, callback){
+        console.log(user.id);
+        async.map(tweets, function(tweet, callback) {
           User.findOne({id: tweet.authorId}, function(err, user) {
             tweet.author = user;
             callback();
