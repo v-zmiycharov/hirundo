@@ -56,21 +56,34 @@ module.exports = {
       async.map(hashTags, function(hashTag, callback) {
         callback(null, hashTag.id);
       }, function(err, hashTagIds) {
-        Tweet.find({hashTags: hashTagIds}, function(err, tweets) {
-          async.map(tweets, function(tweet, callback) {
-            User.findOne({id: tweet.authorId}, function(err, user) {
-              tweet.author = user;
-              callback(null, tweet);
-            });
-          }, function(err, tweets) {
-            return res.view('search/hash', {
-              partial_name: 'tweet/index',
-              selected: 'tweets',
-              data: {
-                tweets: tweets,
-                emptyMessage: 'No tweets found.'
-              },
-              search_items: query
+        User.find({username: search.users}, function(err, users) {
+          async.map(users, function(user, callback) {
+            callback(null, user.id);
+          }, function(err, userIds) {
+            var criteria = {};
+            if (hashTagIds.length > 0) {
+              criteria.hashTags = hashTagIds;
+            }
+            if (userIds.length > 0) {
+              criteria.mentions = userIds;
+            }
+            Tweet.find(criteria, function(err, tweets) {
+              async.map(tweets, function(tweet, callback) {
+                User.findOne({id: tweet.authorId}, function(err, user) {
+                  tweet.author = user;
+                  callback(null, tweet);
+                });
+              }, function(err, tweets) {
+                return res.view('search/hash', {
+                  partial_name: 'tweet/index',
+                  selected: 'tweets',
+                  data: {
+                    tweets: tweets,
+                    emptyMessage: 'No tweets found.'
+                  },
+                  search_items: query
+                });
+              });
             });
           });
         });
