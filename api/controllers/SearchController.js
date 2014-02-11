@@ -20,7 +20,7 @@ var _ = require("lodash");
 module.exports = {
 
   new: function(req, res, next) {
-    var terms = req.param('term').split(',');
+    var terms = req.param('term').replace(/ /g, '').split(',');
     var query = "";
     var search = {
       tags: [],
@@ -39,6 +39,7 @@ module.exports = {
 
   query: function(req, res, next) {
     var terms = req.param('terms').split('&');
+    var query = terms.join(',').replace(/user:/g, '@').replace(/hash:/g, '#').replace(/ /g, '');
     var search = {
       tags: [],
       users: []
@@ -69,7 +70,7 @@ module.exports = {
                 tweets: tweets,
                 emptyMessage: 'No tweets found.'
               },
-              search_items: 'abc, def'
+              search_items: query
             });
           });
         });

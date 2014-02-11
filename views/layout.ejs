@@ -133,7 +133,17 @@
 
 	<script>
 		$(document).ready(function() {
-			$('#selected-tags').select2();
+			$('#search-bar').tagsinput({
+        tagClass: function(item) {
+          item = item.trim();
+          if (item[0] == '@') {
+            return 'label label-success';
+          } else if (item[0] == '#') {
+            return 'label label-info';
+          }
+        },
+        confirmKeys: [13, 44]
+      });
 			$('#login_form, #sign_up_form').validate();
 		});
 	</script>
