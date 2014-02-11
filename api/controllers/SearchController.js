@@ -21,18 +21,34 @@ module.exports = {
 
   new: function(req, res, next) {
     var terms = req.param('term').split(',');
+    var query = "";
     var search = {
       tags: [],
-      words: [],
       users: []
     };
     _.forEach(terms, function(term) {
+      query += '&';
       if (term[0] == '@') {
-        search.users.push(term.substring(1));
+        query += 'user:' + term.substring(1);
       } else if (term[0] == '#') {
-        search.tags.push(term.substring(1));
-      } else {
-        search.words.push(term);
+        query += 'hash:' + term.substring(1);
+      }
+    });
+    return res.redirect('/search/' + query.substring(1));
+  },
+
+  query: function(req, res, next) {
+    var terms = req.param('terms').split('&');
+    var search = {
+      tags: [],
+      users: []
+    };
+    _.forEach(terms, function(term) {
+      var item = term.split(':');
+      if (item[0] == 'user') {
+        search.users.push(item[1]);
+      } else if (item[0] == 'hash') {
+        search.tags.push(item[1]);
       }
     });
     HashTag.find({text: search.tags}, function(err, hashTags) {
@@ -58,18 +74,5 @@ module.exports = {
         });
       });
     });
-  },
-
-  hash: function(req, res, next) {
-	var term = req.param('term');
-    findHashTags([term], res);
-  },
-
-  multipleHash: function(req, res, next) {
-	var term = req.param('term');
-	if(typeof term === 'string') {
-		term = [term];
-	}
-	findHashTags(term, res);
-  },
+  }
 };

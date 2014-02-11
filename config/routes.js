@@ -42,7 +42,7 @@ module.exports.routes = {
   '/:username': 'UserController.show',
   'get /photo/show/:id/:size': 'PhotoController.show',
   'post /search': 'SearchController.new',
-  'get /search/hash/:term': 'SearchController.hash'
+  'get /search/:terms': 'SearchController.query'
 
   /*
   // But what if you want your home page to display

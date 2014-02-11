@@ -12,19 +12,7 @@
 					</button>
 					<a class="navbar-brand" href="/">Hirundo</a>
 				</div>
-
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form" action="/search" role="search" method="POST">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search" data-role="tagsinput" name="term" id="search-bar">
-              <div class="input-group-btn">
-                <button class="btn btn-default" type="submit">
-                  <span class="glyphicon glyphicon-search"></span>
-                </button>
-              </div>
-              </div>
-              <input type="hidden" name="_csrf" value="<%= _csrf %>">
-            </form>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="/<%- currentUser.username %>" id="navigation-profile"><span class="glyphicon glyphicon-user"></span></a></li>
 						<li class="dropdown">
@@ -39,6 +27,20 @@
 							</ul>
 						</li>
 					</ul>
+
+
+              <div class="col-sm-6 col-md-6">
+                <form action="/search" method="POST" class="navbar-form" role="search" method="get" id="search-form" name="search-form">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" data-role="tagsinput" id="search-bar" name="term" value="">
+                      <div class="input-group-btn">
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" value="<%= _csrf %>">
+              </form>
+            </div>
+
 				</div>
 			</div>
 		</nav>
